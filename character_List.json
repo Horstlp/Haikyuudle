@@ -53,7 +53,7 @@
         "occupation": "3rd Year",
         "height_cm": 174.3,
         "debut_season": "Season 1",
-        "imageUrl": "Images/Koshi_Sugawara"
+        "imageUrl": "Images/Kōshi_Sugawara"
       },
       {
         "name": "Asahi Azumane",
@@ -71,7 +71,7 @@
         "occupation": "2nd Year",
         "height_cm": 159.3,
         "debut_season": "Season 1",
-        "imageUrl": "Images/Yu_Nishinoya"
+        "imageUrl": "Images/Yū_Nishinoya"
       },
       {
         "name": "Ryūnosuke Tanaka",
@@ -80,7 +80,7 @@
         "occupation": "2nd Year",
         "height_cm": 178.2,
         "debut_season": "Season 1",
-        "imageUrl": "Images/Ryunosuke_Tanaka"
+        "imageUrl": "Images/Ryūnosuke_Tanaka"
       },
       {
         "name": "Chikara Ennoshita",
@@ -265,6 +265,489 @@
         "debut_season": "Season 1",
         "imageUrl": "Images/Manabu_Naoi"
     }
-    ]
+    ],
+
+        "Dateko": [
+    {
+        "name": "Kaname Moniwa",
+        "gender": "Male",
+        "position": "Setter / Captain",
+        "occupation": "3rd Year",
+        "height_cm": 178.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kaname_Moniwa"
+    },
+    {
+        "name": "Yasushi Kamasaki",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "3rd Year",
+        "height_cm": 186.8,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Yasushi_Kamasaki"
+    },
+    {
+        "name": "Takehito Sasaya",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "3rd Year",
+        "height_cm": 185.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Takehito_Sasaya"
+    },
+    {
+        "name": "Kenji Futakuchi",
+        "gender": "Male",
+        "position": "Wing Spiker / Ace / Captain",
+        "occupation": "2nd Year",
+        "height_cm": 184.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kenji_Futakuchi"
+    },
+    {
+        "name": "Takanobu Aone",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "2nd Year",
+        "height_cm": 191.8,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Takanobu_Aone"
+    },
+    {
+        "name": "Yutaka Obara",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 181.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Yutaka_Obara"
+    },
+    {
+        "name": "Kanji Koganegawa",
+        "gender": "Male",
+        "position": "Setter",
+        "occupation": "1st Year",
+        "height_cm": 190.5,
+        "debut_season": "Season 2",
+        "imageUrl": "Images/Kanji_Koganegawa"
+    },
+    {
+        "name": "Tarō Onagawa",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 182.8,
+        "debut_season": "Season 2",
+        "imageUrl": "Images/Taro_Onagawa"
+    },
+    {
+        "name": "Jingo Fukiage",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 178.8,
+        "debut_season": "Season 2",
+        "imageUrl": "Images/Jingo_Fukiage"
+    },
+    {
+        "name": "Kōsuke Sakunami",
+        "gender": "Male",
+        "position": "Libero",
+        "occupation": "1st Year",
+        "height_cm": 164.1,
+        "debut_season": "Season 2",
+        "imageUrl": "Images/Kōsuke_Sakunami"
+    },
+    {
+        "name": "Mai Nametsu",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "3rd Year",
+        "height_cm": 180.0,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Mai_Nametsu"
+    },
+    {
+        "name": "Takurō Oiwake",
+        "gender": "Male",
+        "position": "Coach",
+        "occupation": "Coach",
+        "height_cm": null,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Takurō_Oiwake"
+    }
+    ],
+
+        "Aoba Johsai": [
+    {
+        "name": "Tōru Oikawa",
+        "gender": "Male",
+        "position": "Setter / Captain",
+        "occupation": "3rd Year",
+        "height_cm": 184.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Tōru_Oikawa"
+    },
+    {
+        "name": "Issei Matsukawa",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "3rd Year",
+        "height_cm": 187.9,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Issei_Matsukawa"
+    },
+    {
+        "name": "Takahiro Hanamaki",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "3rd Year",
+        "height_cm": 184.7,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Takahiro_Hanamaki"
+    },
+    {
+        "name": "Hajime Iwaizumi",
+        "gender": "Male",
+        "position": "Wing Spiker / Vice Captain / Ace",
+        "occupation": "3rd Year",
+        "height_cm": 179.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Hajime_Iwaizumi"
+    },
+    {
+        "name": "Shigeru Yahaba",
+        "gender": "Male",
+        "position": "Setter / Pinch Server",
+        "occupation": "2nd Year",
+        "height_cm": 181.9,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Shigeru_Yahaba"
+    },
+    {
+        "name": "Shinji Watari",
+        "gender": "Male",
+        "position": "Libero",
+        "occupation": "2nd Year",
+        "height_cm": 171.2,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Shinji_Watari"
+    },
+    {
+        "name": "Yūtarō Kindaichi",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "1st Year",
+        "height_cm": 189.2,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Yūtarō_Kindaichi"
+    },
+    {
+        "name": "Akira Kunimi",
+        "gender": "Male",
+        "position": "Wing Spiker / Opposite Hitter",
+        "occupation": "1st Year",
+        "height_cm": 182.8,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Akira_Kunimi"
+    },
+    {
+        "name": "Kentarō Kyōtani",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 178.8,
+        "debut_season": "Season 2",
+        "imageUrl": "Images/Kentarō_Kyōtani"
+    }
+    ],
+
+        "Fukurōdani": [
+    {
+        "name": "Kōtarō Bokuto",
+        "gender": "Male",
+        "position": "Wing Spiker / Captain / Ace",
+        "occupation": "3rd Year",
+        "height_cm": 185.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kōtarō_Bokuto"
+    },
+    {
+        "name": "Keiji Akaashi",
+        "gender": "Male",
+        "position": "Setter / Vice Captain",
+        "occupation": "2nd Year",
+        "height_cm": 182.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Keiji_Akaashi"
+    },
+    {
+        "name": "Tatsuki Washio",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "3rd Year",
+        "height_cm": 187.8,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Tatsuki_Washio"
+    },
+    {
+        "name": "Yamato Sarukui",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "3rd Year",
+        "height_cm": 181.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Yamato_Sarukui"
+    },
+    {
+        "name": "Akinori Konoha",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "3rd Year",
+        "height_cm": 178.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Akinori_Konoha"
+    },
+    {
+        "name": "Haruki Komi",
+        "gender": "Male",
+        "position": "Libero",
+        "occupation": "3rd Year",
+        "height_cm": 168.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Haruki_Komi"
+    },
+    {
+        "name": "Wataru Onaga",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "1st Year",
+        "height_cm": 191.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Wataru_Onaga"
+    },
+    {
+        "name": "Yukie Shirofuku",
+        "gender": "Female",
+        "position": "Manager",
+        "occupation": "3rd Year",
+        "height_cm": null,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Yukie_Shirofuku"
+    },
+    {
+        "name": "Kaori Suzumeda",
+        "gender": "Female",
+        "position": "Manager",
+        "occupation": "3rd Year",
+        "height_cm": null,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kaori_Suzumeda"
+    },
+    {
+        "name": "Takeyuki Yamiji",
+        "gender": "Male",
+        "position": "Coach",
+        "occupation": null,
+        "height_cm": null,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Takeyuki_Yamiji"
+    }
+    ],
+
+        "Shiratorizawa": [
+    {
+      "name": "Wakatoshi Ushijima",
+      "gender": "Male",
+      "position": "Captain / Wing Spiker / Opposite Hitter / Ace",
+      "occupation": "3rd Year",
+      "height_cm": 189.5,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Wakatoshi_Ushijima"
+    },
+    {
+      "name": "Reon Ōhira",
+      "gender": "Male",
+      "position": "Vice Captain / Wing Spiker / Outside Hitter",
+      "occupation": "3rd Year",
+      "height_cm": 182.7,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Reon_Ōhira"
+    },
+    {
+      "name": "Eita Semi",
+      "gender": "Male",
+      "position": "Setter / Pinch Server",
+      "occupation": "3rd Year",
+      "height_cm": 179.5,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Eita_Semi"
+    },
+    {
+      "name": "Satori Tendō",
+      "gender": "Male",
+      "position": "Middle Blocker",
+      "occupation": "3rd Year",
+      "height_cm": 187.7,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Satori_Tendō"
+    },
+    {
+      "name": "Kenjirō Shirabu",
+      "gender": "Male",
+      "position": "Setter",
+      "occupation": "2nd Year",
+      "height_cm": 174.8,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Kenjirō_Shirabu"
+    },
+    {
+      "name": "Taichi Kawanishi",
+      "gender": "Male",
+      "position": "Middle Blocker",
+      "occupation": "2nd Year",
+      "height_cm": 188.3,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Taichi_Kawanishi"
+    },
+    {
+      "name": "Tsutomu Goshiki",
+      "gender": "Male",
+      "position": "Wing Spiker / Outside Hitter",
+      "occupation": "1st Year",
+      "height_cm": 181.5,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Tsutomu_Goshiki"
+    },
+    {
+      "name": "Hayato Yamagata",
+      "gender": "Male",
+      "position": "Libero",
+      "occupation": "3rd Year",
+      "height_cm": 174.3,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Hayato_Yamagata"
+    },
+    {
+      "name": "Kai Akakura",
+      "gender": "Male",
+      "position": "Libero",
+      "occupation": "1st Year",
+      "height_cm": null,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Kai_Akakura"
+    },
+    {
+      "name": "Yūshō Sagae",
+      "gender": "Male",
+      "position": "Wing Spiker",
+      "occupation": "1st Year",
+      "height_cm": null,
+      "debut_season": "Season 2",
+      "imageUrl": "Images/Yūshō_Sagae"
+    }
+    ],
+
+        "Inarizaki": [
+  {
+    "name": "Shinsuke Kita",
+    "gender": "Male",
+    "position": "Wing Spiker / Captain",
+    "occupation": "3rd Year",
+    "height_cm": 175.2,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Shinsuke_Kita"
+  },
+  {
+    "name": "Atsumu Miya",
+    "gender": "Male",
+    "position": "Setter",
+    "occupation": "2nd Year",
+    "height_cm": 183.6,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Atsumu_Miya"
+  },
+  {
+    "name": "Osamu Miya",
+    "gender": "Male",
+    "position": "Wing Spiker",
+    "occupation": "2nd Year",
+    "height_cm": 183.8,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Osamu_Miya"
+  },
+  {
+    "name": "Aran Ojiro",
+    "gender": "Male",
+    "position": "Wing Spiker / Ace",
+    "occupation": "3rd Year",
+    "height_cm": 184.7,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Aran_Ojiro"
+  },
+  {
+    "name": "Rintarō Suna",
+    "gender": "Male",
+    "position": "Middle Blocker",
+    "occupation": "2nd Year",
+    "height_cm": 185.7,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Rintarō_Suna"
+  },
+  {
+    "name": "Ren Ōmimi",
+    "gender": "Male",
+    "position": "Middle Blocker",
+    "occupation": "3rd Year",
+    "height_cm": 191.0,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Ren_Omimi"
+  },
+  {
+    "name": "Hitoshi Ginjima",
+    "gender": "Male",
+    "position": "Wing Spiker",
+    "occupation": "3rd Year",
+    "height_cm": 186.0,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Hitoshi_Ginjima"
+  },
+  {
+    "name": "Michinari Akagi",
+    "gender": "Male",
+    "position": "Libero",
+    "occupation": "3rd Year",
+    "height_cm": 174.2,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Michinari_Akagi"
+  },
+  {
+    "name": "Heisuke Riseki",
+    "gender": "Male",
+    "position": "Wing Spiker",
+    "occupation": "1st Year",
+    "height_cm": 185.2,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Heisuke_Riseki"
+  },
+  {
+    "name": "Yūto Kosaku",
+    "gender": "Male",
+    "position": "Wing Spiker",
+    "occupation": "2nd Year",
+    "height_cm": 182.8,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Yūto_Kosaku"
+  },
+  {
+    "name": "Norimune Kurosu",
+    "gender": "Male",
+    "position": "Coach",
+    "occupation": "Coach",
+    "height_cm": null,
+    "debut_season": "Season 4",
+    "imageUrl": "Images/Norimune_Kurosu"
+  }
+]
 
 }
