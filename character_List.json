@@ -1,0 +1,270 @@
+{
+    "karasuno": [
+      {
+        "name": "Shoyo Hinata",
+        "gender": "Male",
+        "position": "Middle Blocker / Decoy",
+        "occupation": "1st Year",
+        "height_cm": 164.2,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Shoyo_Hinata"
+      },
+      {
+        "name": "Tobio Kageyama",
+        "gender": "Male",
+        "position": "Setter",
+        "occupation": "1st Year",
+        "height_cm": 188,
+        "special_attributes": ["Genius Setter", "King of the Court"],
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Tobio_Kageyama"
+      },
+      {
+        "name": "Kei Tsukishima",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "1st Year",
+        "height_cm": 190.1,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kei_Tsukishima"
+      },
+      {
+        "name": "Tadashi Yamaguchi",
+        "gender": "Male",
+        "position": "Pinch Server",
+        "occupation": "1st Year",
+        "height_cm": 179.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Tadashi_Yamaguchi"
+      },
+      {
+        "name": "Daichi Sawamura",
+        "gender": "Male",
+        "position": "Wing Spiker / Captain",
+        "occupation": "3rd Year",
+        "height_cm": 176.8,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Daichi_Sawamura"
+      },
+      {
+        "name": "Kōshi Sugawara",
+        "gender": "Male",
+        "position": "Setter / Vice-Captain",
+        "occupation": "3rd Year",
+        "height_cm": 174.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Koshi_Sugawara"
+      },
+      {
+        "name": "Asahi Azumane",
+        "gender": "Male",
+        "position": "Wing Spiker / Ace",
+        "occupation": "3rd Year",
+        "height_cm": 184.7,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Asahi_Azumane"
+      },
+      {
+        "name": "Yū Nishinoya",
+        "gender": "Male",
+        "position": "Libero",
+        "occupation": "2nd Year",
+        "height_cm": 159.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Yu_Nishinoya"
+      },
+      {
+        "name": "Ryūnosuke Tanaka",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 178.2,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Ryunosuke_Tanaka"
+      },
+      {
+        "name": "Chikara Ennoshita",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 175.4,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Chikara_Ennoshita"
+      },
+      {
+        "name": "Hisashi Kinoshita",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 175.8,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Hisashi_Kinoshita"
+      },
+      {
+        "name": "Kazuhito Narita",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "2nd Year",
+        "height_cm": 180,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kazuhito_Narita"
+      },
+      {
+        "name": "Kiyoko Shimizu",
+        "gender": "Female",
+        "position": "Team Manager",
+        "occupation": "3rd Year",
+        "height_cm": 166.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kiyoko_Shimizu"
+      },
+      {
+        "name": "Hitoka Yachi",
+        "gender": "Female",
+        "position": "Team Manager",
+        "occupation": "1st Year",
+        "height_cm": 149.7,
+        "debut_season": "Season 2",
+        "imageUrl": "Images/Hitoka_Yachi"
+      },
+      {
+        "name": "Ittetsu Takeda",
+        "gender": "Male",
+        "position": "Faculty Advisor",
+        "occupation": "Teacher",
+        "height_cm": 166.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Ittetsu_Takeda"
+      },
+      {
+        "name": "Keishin Ukai",
+        "gender": "Male",
+        "position": "Coach",
+        "occupation": "Coach / Former Player",
+        "height_cm": 178,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Keishin_Ukai"
+      },
+      {
+        "name": "Ikkei Ukai",
+        "gender": "Male",
+        "position": "Former Coach",
+        "occupation": "Retired Coach",
+        "height_cm": 170,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Ikkei_Ukai"
+      }
+    ],
+
+    "nekoma": [
+    {
+        "name": "Tetsurō Kuroo",
+        "gender": "Male",
+        "position": "Middle Blocker / Captain",
+        "occupation": "3rd Year",
+        "height_cm": 187,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Tetsurō_Kuroo"
+    },
+    {
+        "name": "Nobuyuki Kai",
+        "gender": "Male",
+        "position": "Wing Spiker / Vice-Captain",
+        "occupation": "3rd Year",
+        "height_cm": 176.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Nobuyuki_Kai"
+    },
+    {
+        "name": "Morisuke Yaku",
+        "gender": "Male",
+        "position": "Libero",
+        "occupation": "3rd Year",
+        "height_cm": 165.2,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Morisuke_Yaku"
+    },
+    {
+        "name": "Taketora Yamamoto",
+        "gender": "Male",
+        "position": "Wing Spiker / Ace",
+        "occupation": "2nd Year",
+        "height_cm": 177,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Taketora_Yamamoto"
+    },
+    {
+        "name": "Kenma Kozume",
+        "gender": "Male",
+        "position": "Setter",
+        "occupation": "2nd Year",
+        "height_cm": 169.2,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Kenma_Kozume"
+    },
+    {
+        "name": "Shōhei Fukunaga",
+        "gender": "Male",
+        "position": "Wing Spiker",
+        "occupation": "2nd Year",
+        "height_cm": 177.2,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Shōhei_Fukunaga"
+    },
+    {
+        "name": "Sō Inuoka",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "1st Year",
+        "height_cm": 185.3,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Sō_Inuoka"
+    },
+    {
+        "name": "Tamahiko Teshiro",
+        "gender": "Male",
+        "position": "Setter (Sub)",
+        "occupation": "2nd Year",
+        "height_cm": 181.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Tamahiko_Teshiro"
+    },
+    {
+        "name": "Lev Haiba",
+        "gender": "Male",
+        "position": "Middle Blocker",
+        "occupation": "1st Year",
+        "height_cm": 194.3,
+        "debut_season": "Season 2",
+        "imageUrl": "Images/Lev_Haiba"
+    },
+    {
+        "name": "Yūki Shibayama",
+        "gender": "Male",
+        "position": "Libero (Sub)",
+        "occupation": "1st Year",
+        "height_cm": 162.5,
+        "debut_season": "Season 4",
+        "imageUrl": "Images/Yūki_Shibayama"
+    },
+    {
+        "name": "Yasufumi Nekomata",
+        "gender": "Male",
+        "position": "Coach",
+        "occupation": "Head Coach",
+        "height_cm": 169.5,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Yasufumi_Nekomata"
+    },
+    {
+        "name": "Manabu Naoi",
+        "gender": "Male",
+        "position": "Faculty Advisor",
+        "occupation": "Teacher",
+        "height_cm": null,
+        "debut_season": "Season 1",
+        "imageUrl": "Images/Manabu_Naoi"
+    }
+    ]
+
+}
