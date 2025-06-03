@@ -1,0 +1,363 @@
+[
+  {
+    "name": "Shoyo Hinata",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Middle Blocker",
+    "class_year": "1st Year",
+    "height_cm": 162,
+    "special_attributes": ["Protagonist", "Decoy"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Tobio Kageyama",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Setter",
+    "class_year": "1st Year",
+    "height_cm": 181,
+    "special_attributes": ["King of the Court", "Ace Setter"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Daichi Sawamura",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 178,
+    "special_attributes": ["Captain", "Reliable"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Koshi Sugawara",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Setter",
+    "class_year": "3rd Year",
+    "height_cm": 175,
+    "special_attributes": ["Vice-Captain", "Supportive Setter"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Asahi Azumane",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Ace / Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 190,
+    "special_attributes": ["Ace", "Powerful Spike"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Yu Nishinoya",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Libero",
+    "class_year": "2nd Year",
+    "height_cm": 159,
+    "special_attributes": ["Libero", "Energetic"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Ryunosuke Tanaka",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Wing Spiker",
+    "class_year": "2nd Year",
+    "height_cm": 173,
+    "special_attributes": ["Aggressive", "Protective"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Kei Tsukishima",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Middle Blocker",
+    "class_year": "1st Year",
+    "height_cm": 188,
+    "special_attributes": ["Analytical", "Blocking Specialist"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Tadashi Yamaguchi",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Middle Blocker",
+    "class_year": "1st Year",
+    "height_cm": 175,
+    "special_attributes": ["Pinch Server", "Supportive"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Kenma Kozume",
+    "gender": "Male",
+    "team": "Nekoma High",
+    "position": "Setter",
+    "class_year": "2nd Year",
+    "height_cm": 159,
+    "special_attributes": ["Strategist", "Calm"],
+    "debut_season": "Season 2"
+  },
+  {
+    "name": "Tetsuro Kuroo",
+    "gender": "Male",
+    "team": "Nekoma High",
+    "position": "Middle Blocker",
+    "class_year": "3rd Year",
+    "height_cm": 186,
+    "special_attributes": ["Captain", "Leader"],
+    "debut_season": "Season 2"
+  },
+  {
+    "name": "Lev Haiba",
+    "gender": "Male",
+    "team": "Nekoma High",
+    "position": "Middle Blocker",
+    "class_year": "1st Year",
+    "height_cm": 198,
+    "special_attributes": ["Tall", "Energetic"],
+    "debut_season": "Season 3"
+  },
+  {
+    "name": "Nekomata Yaku",
+    "gender": "Male",
+    "team": "Nekoma High",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 183,
+    "special_attributes": ["Reliable", "Strong Defense"],
+    "debut_season": "Season 2"
+  },
+  {
+    "name": "Tooru Oikawa",
+    "gender": "Male",
+    "team": "Aoba Johsai High",
+    "position": "Setter",
+    "class_year": "3rd Year",
+    "height_cm": 181,
+    "special_attributes": ["Ace Setter", "Charismatic"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Hajime Iwaizumi",
+    "gender": "Male",
+    "team": "Aoba Johsai High",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 182,
+    "special_attributes": ["Vice-Captain", "Powerful Spike"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Akira Kunimi",
+    "gender": "Male",
+    "team": "Aoba Johsai High",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 176,
+    "special_attributes": ["Reliable", "Quick"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Issei Matsukawa",
+    "gender": "Male",
+    "team": "Aoba Johsai High",
+    "position": "Middle Blocker",
+    "class_year": "3rd Year",
+    "height_cm": 180,
+    "special_attributes": ["Blocking Specialist"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Wakatoshi Ushijima",
+    "gender": "Male",
+    "team": "Shiratorizawa Academy",
+    "position": "Ace / Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 194,
+    "special_attributes": ["Ace", "Strong Spike"],
+    "debut_season": "Season 2"
+  },
+  {
+    "name": "Satori Tendou",
+    "gender": "Male",
+    "team": "Shiratorizawa Academy",
+    "position": "Middle Blocker",
+    "class_year": "2nd Year",
+    "height_cm": 187,
+    "special_attributes": ["Jump Float Serve", "Unpredictable"],
+    "debut_season": "Season 2"
+  },
+  {
+    "name": "Shigeru Yahaba",
+    "gender": "Male",
+    "team": "Shiratorizawa Academy",
+    "position": "Setter",
+    "class_year": "2nd Year",
+    "height_cm": 173,
+    "special_attributes": ["Setting Skills", "Calm"],
+    "debut_season": "Season 2",
+    "image_url": "https://cdn.anisearch.de/images/character/cover/59/59806_400.webp"
+  },
+  {
+    "name": "Kotaro Bokuto",
+    "gender": "Male",
+    "team": "Fukurodani Academy",
+    "position": "Ace / Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 188,
+    "special_attributes": ["Ace", "Emotional"],
+    "debut_season": "Season 3"
+  },
+  {
+    "name": "Keiji Akaashi",
+    "gender": "Male",
+    "team": "Fukurodani Academy",
+    "position": "Setter",
+    "class_year": "2nd Year",
+    "height_cm": 175,
+    "special_attributes": ["Setter", "Calm"],
+    "debut_season": "Season 3"
+  },
+  {
+    "name": "Aran Ojiro",
+    "gender": "Male",
+    "team": "Inarizaki High",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 189,
+    "special_attributes": ["Strong", "Ace Candidate"],
+    "debut_season": "Season 4"
+  },
+  {
+    "name": "Shinsuke Kita",
+    "gender": "Male",
+    "team": "Inarizaki High",
+    "position": "Captain / Setter",
+    "class_year": "3rd Year",
+    "height_cm": 186,
+    "special_attributes": ["Captain", "Strategist"],
+    "debut_season": "Season 4"
+  },
+  {
+    "name": "Atsumu Miya",
+    "gender": "Male",
+    "team": "Inarizaki High",
+    "position": "Setter",
+    "class_year": "3rd Year",
+    "height_cm": 180,
+    "special_attributes": ["Ace Setter", "Egoistic"],
+    "debut_season": "Season 4"
+  },
+  {
+    "name": "Osamu Miya",
+    "gender": "Male",
+    "team": "Inarizaki High",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 181,
+    "special_attributes": ["Ace", "Strategic"],
+    "debut_season": "Season 4"
+  },
+  {
+    "name": "Hitoka Yachi",
+    "gender": "Female",
+    "team": "Karasuno High",
+    "position": "Manager",
+    "class_year": "1st Year",
+    "height_cm": 160,
+    "special_attributes": ["Manager", "Supportive"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Kiyoko Shimizu",
+    "gender": "Female",
+    "team": "Karasuno High",
+    "position": "Manager",
+    "class_year": "3rd Year",
+    "height_cm": 165,
+    "special_attributes": ["Manager", "Calm"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Takeda Ittetsu",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Coach",
+    "class_year": "N/A",
+    "height_cm": 175,
+    "special_attributes": ["Coach", "Motivator"],
+    "debut_season": "Season 1"
+  },
+  {
+    "name": "Kunihiro Yamamoto",
+    "gender": "Male",
+    "team": "Karasuno High",
+    "position": "Coach Assistant",
+    "class_year": "N/A",
+    "height_cm": 170,
+    "special_attributes": ["Assistant Coach", "Supportive"],
+    "debut_season": "Season 3"
+  },
+  {
+    "name": "Koganegawa Kanji",
+    "gender": "Male",
+    "team": "Shiratorizawa Academy",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 182,
+    "special_attributes": ["Powerful Spike", "Enthusiastic"],
+    "debut_season": "Season 2"
+  },
+  {
+    "name": "Takahiro Hanamaki",
+    "gender": "Male",
+    "team": "Fukurodani Academy",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 180,
+    "special_attributes": ["Energetic", "Supportive"],
+    "debut_season": "Season 3"
+  },
+  {
+    "name": "Yamato Sarukui",
+    "gender": "Male",
+    "team": "Fukurodani Academy",
+    "position": "Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 176,
+    "special_attributes": ["Reliable", "Energetic"],
+    "debut_season": "Season 3"
+  },
+  {
+    "name": "Kiyoomi Sakusa",
+    "gender": "Male",
+    "team": "Itachiyama Institute",
+    "position": "Ace / Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 190,
+    "special_attributes": ["Ace", "Strong Spike"],
+    "debut_season": "Season 4"
+  },
+  {
+    "name": "Kotaro Bokuto",
+    "gender": "Male",
+    "team": "Fukurodani Academy",
+    "position": "Ace / Wing Spiker",
+    "class_year": "3rd Year",
+    "height_cm": 188,
+    "special_attributes": ["Ace", "Emotional"],
+    "debut_season": "Season 3"
+  },
+  {
+    "name": "Keiji Akaashi",
+    "gender": "Male",
+    "team": "Fukurodani Academy",
+    "position": "Setter",
+    "class_year": "2nd Year",
+    "height_cm": 175,
+    "special_attributes": ["Calm", "Tactical"],
+    "debut_season": "Season 3"
+  }
+]
