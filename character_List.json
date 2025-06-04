@@ -360,10 +360,10 @@
     },
     {
         "name": "Mai Nametsu",
-        "gender": "Male",
-        "position": "Middle Blocker",
-        "occupation": "3rd Year",
-        "height_cm": 180.0,
+        "gender": "Female",
+        "position": "Manager",
+        "occupation": "2nd Year",
+        "height_cm": 160.5,
         "debut_season": "Season 1",
         "imageUrl": "Images/Mai_Nametsu"
     },
