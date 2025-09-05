@@ -1,29 +1,276 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Haikyuu Wordle</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Haikyuu Wordle — Daily & Infinite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#e4813e;   /* orange */
+      --accent-2:#eb6a1a; /* deeper orange */
+      --bg-900:#0f1113;   /* page background (very dark) */
+      --card:#161618;     /* card background */
+      --muted:#cbd1d9;    /* muted text */
+      --success:#22c55e;
+      --partial:#f7e05a;
+      --wrong:#f87171;
+      --glass: rgba(255,255,255,0.02);
+      --shadow: 0 12px 40px rgba(2,6,23,0.7);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Baloo 2',sans-serif;margin:0;background:linear-gradient(180deg,var(--bg-900),#0b0b0c 60%);display:flex;align-items:center;justify-content:center;padding:28px;color:var(--muted)}
+
+    .center-wrap{width:720px;max-width:96vw}
+    .game-card{background:var(--card);border-radius:12px;padding:22px 22px 30px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.02)}
+
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;flex-direction:column}
+    h1{font-family:'Baloo 2';margin:0;color:var(--accent);font-size:1.6rem}
+    .sub{color:var(--muted);font-size:13px}
+
+    .modes{display:flex;gap:8px}
+    .mode-btn{padding:8px 12px;border-radius:8px;border:none;background:transparent;color:var(--muted);font-weight:700;cursor:pointer}
+    .mode-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 6px 18px rgba(235,106,26,0.12)}
+
+    .box{margin:10px auto 0;max-width:560px}
+    .prompt{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));color:var(--muted);padding:16px;border-radius:8px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.02)}
+    .prompt small{display:block;font-weight:500;color:rgba(203,209,217,0.85);font-size:12px;margin-top:6px}
+
+    .search-row{display:flex;margin-top:12px;gap:8px}
+    #input{flex:1;padding:12px 14px;border-radius:8px;border:2px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);font-size:15px;outline:none}
+    #input::placeholder{color:rgba(203,209,217,0.5)}
+
+    .icon-btn{padding:10px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;cursor:pointer}
+
+    #suggestions{margin-top:10px;border-radius:8px;max-height:260px;overflow:auto}
+    .suggestion-item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:8px;cursor:pointer;border:1px solid rgba(255,255,255,0.02);background:transparent;transition:transform .12s,box-shadow .12s}
+    .suggestion-item:hover{transform:translateX(4px);box-shadow:0 10px 28px rgba(2,6,23,0.6)}
+    .suggestion-item.active{background:linear-gradient(90deg, rgba(228,129,62,0.08), rgba(235,106,26,0.05));box-shadow:0 14px 40px rgba(235,106,26,0.06);transform:translateX(4px)}
+    .suggestion-image{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.03)}
+    .suggestion-name{font-weight:700;color:var(--muted)}
+    .suggestion-meta{font-size:12px;color:rgba(203,209,217,0.7)}
+
+    .guesses{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+    /* mimic wordle row tiles: smaller square cells */
+    .guess{display:grid;grid-template-columns:56px repeat(6,1fr);gap:8px;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02)}
+    .guess img{width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.03)}
+    .guess div{padding:10px;border-radius:6px;text-align:center;font-weight:700;color:var(--muted)}
+
+    .correct{background:var(--success);color:#02120a}
+    .partial{background:var(--partial);color:#111}
+    .wrong{background:var(--wrong);color:#111}
+
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:13px}
+    .stats{display:flex;gap:12px;align-items:center}
+    .stat{background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:8px;font-weight:700;color:var(--muted)}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:999}
+    .modal.show{display:flex}
+    .modal-card{background:var(--card);padding:18px;border-radius:12px;text-align:center;box-shadow:0 24px 70px rgba(2,6,23,0.8);border:1px solid rgba(255,255,255,0.02)}
+    .modal-card img{width:120px;height:120px;border-radius:10px;object-fit:cover;border:3px solid var(--accent);margin-bottom:12px}
+    .modal-card h2{color:var(--accent)}
+    .mode-btn, .icon-btn{font-family:inherit}
+
+    @media (max-width:640px){ .guess{grid-template-columns:48px repeat(6,1fr)} }
+  </style>
 </head>
 <body>
-  <h1>Haikyuu Wordle</h1>
-  <input id="input" type="text" placeholder="Type a character name..." disabled />
-  <ul id="suggestions"></ul>
-  <div id="guesses"></div>
-  <button id="replay">Replay</button>
+  <div class="center-wrap">
+    <div class="game-card">
+      <header>
+        <div class="brand">
+          <h1>Haikyuu Wordle</h1>
+          <div class="sub">Guess the character by attributes — Daily (UTC) or Infinite</div>
+        </div>
+        <div class="modes">
+          <button id="dailyBtn" class="mode-btn">Daily</button>
+          <button id="infiniteBtn" class="mode-btn">Infinite</button>
+        </div>
+      </header>
 
-  <div class="modal" id="winModal">
-    <div class="modal-content">
-      <img id="winnerImage" src="" alt="Winner" />
-      <h2>You got it right!</h2>
-      <p id="winnerName"></p>
-      <button onclick="newGame()">Play Again</button>
+      <div class="box">
+        <div class="search-row">
+          <input id="input" placeholder="Type a character name..." autocomplete="off" disabled />
+          <button class="icon-btn" id="replay">New Game</button>
+        </div>
+
+        <div id="suggestions" role="listbox" aria-label="suggestions"></div>
+
+        <div id="guesses" class="guesses" aria-live="polite"></div>
+
+        <div class="footer">
+          <div class="stats"><div class="stat">Guesses: <span id="statGuesses">0</span></div></div>
+          <div style="font-size:13px;color:var(--muted)">Unlimited guesses — play at your pace</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="modal" id="winModal"><div class="modal-card"><img id="winnerImage" src="" alt="winner"><h2 id="winnerName">You got it right!</h2><p id="winnerTeam"></p><div style="margin-top:12px;display:flex;gap:8px;justify-content:center"><button id="playAgain" class="icon-btn">Play Again</button><button id="closeWin" class="mode-btn">Close</button></div></div></div>
+
+  <script>
+    // --- data holders ---
+    let characters = [];
+    let availableCharacters = [];
+    let target = null;
+    let mode = localStorage.getItem('hv_mode') || 'daily';
+    let activeIndex = -1; // suggestion highlight index
+
+    const input = document.getElementById('input');
+    const suggestionsEl = document.getElementById('suggestions');
+    const guessesEl = document.getElementById('guesses');
+    const replayBtn = document.getElementById('replay');
+    const dailyBtn = document.getElementById('dailyBtn');
+    const infiniteBtn = document.getElementById('infiniteBtn');
+    const statGuesses = document.getElementById('statGuesses');
+
+    // modal
+    const winModal = document.getElementById('winModal');
+    const winnerImage = document.getElementById('winnerImage');
+    const winnerName = document.getElementById('winnerName');
+    const winnerTeam = document.getElementById('winnerTeam');
+    const playAgain = document.getElementById('playAgain');
+    const closeWin = document.getElementById('closeWin');
+
+    function setModeUI(){
+      dailyBtn.classList.toggle('active', mode === 'daily');
+      infiniteBtn.classList.toggle('active', mode === 'infinite');
+      localStorage.setItem('hv_mode', mode);
+    }
+    dailyBtn.addEventListener('click', ()=>{mode='daily';setModeUI();newGame();});
+    infiniteBtn.addEventListener('click', ()=>{mode='infinite';setModeUI();newGame();});
+
+    async function loadCharacters(){
+      try{
+        const resp = await fetch('character_List.json');
+        if(!resp.ok) throw new Error('character_List.json not found');
+        const data = await resp.json();
+        characters = Object.entries(data).flatMap(([team, members]) => members.map(m => ({...m, team: capitalize(team)})));
+        input.disabled = false;
+        setModeUI();
+        newGame();
+      }catch(err){ alert('Failed to load characters: ' + err.message); }
+    }
+
+    function getDailyIndex(){
+      const d = new Date();
+      const year = d.getUTCFullYear();
+      const month = String(d.getUTCMonth()+1).padStart(2,'0');
+      const day = String(d.getUTCDate()).padStart(2,'0');
+      const key = `${year}-${month}-${day}-haikyuu-wordle`;
+      let h = 2166136261 >>> 0;
+      for(let i=0;i<key.length;i++){ h ^= key.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+      return characters.length ? h % characters.length : 0;
+    }
+
+    function newGame(){
+      availableCharacters = [...characters];
+      if(mode === 'daily'){
+        const idx = getDailyIndex(); target = characters[idx];
+      } else { target = availableCharacters[Math.floor(Math.random()*availableCharacters.length)]; }
+      guessesEl.innerHTML = '';
+      suggestionsEl.innerHTML = '';
+      input.value = '';
+      activeIndex = -1;
+      replayBtn.style.display = 'inline-block';
+      updateStats();
+      winModal.classList.remove('show');
+      // give the user immediate keyboard access
+      setTimeout(()=>{ try{ input.focus(); if(suggestionsEl.children.length===0) renderSuggestions(availableCharacters.slice(0,18)); }catch(e){} },80);
+    }
+
+    function updateStats(){ statGuesses.textContent = guessesEl.children.length; }
+    function capitalize(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+
+    function renderSuggestions(list){
+      suggestionsEl.innerHTML = '';
+      if(!list.length) return;
+      list.forEach((c,i)=>{
+        const el = document.createElement('div'); el.className = 'suggestion-item'; el.dataset.index = i;
+        const img = document.createElement('img'); img.className = 'suggestion-image'; img.src = c.imageUrl + '.webp'; img.alt = c.name;
+        const wrap = document.createElement('div'); wrap.innerHTML = `<div class="suggestion-name">${c.name}</div><div class="suggestion-meta">${c.team || ''} • ${c.position||''}</div>`;
+        el.appendChild(img); el.appendChild(wrap);
+        el.addEventListener('click', ()=> pickSuggestion(i,list));
+        suggestionsEl.appendChild(el);
+      });
+      // auto-select first suggestion for quick Enter play
+      activeIndex = 0;
+      updateActiveSuggestion();
+    }
+
+    function pickSuggestion(i,list){ const c = list[i]; if(c) addGuess(c); input.value=''; suggestionsEl.innerHTML=''; activeIndex=-1; }
+
+    input.addEventListener('input', ()=>{
+      const val = input.value.trim().toLowerCase();
+      suggestionsEl.innerHTML='';
+      if(!val){
+        // show first few as quick-pick so Enter works immediately
+        renderSuggestions(availableCharacters.slice(0,18));
+        return updateStats();
+      }
+      const filtered = availableCharacters.filter(c => c.name.toLowerCase().includes(val) || (c.team && c.team.toLowerCase().includes(val))).slice(0,30);
+      if(filtered.length) renderSuggestions(filtered);
+    });
+
+    input.addEventListener('focus', ()=>{
+      if(!input.value.trim()) renderSuggestions(availableCharacters.slice(0,18));
+    });
+
+    input.addEventListener('keydown',(e)=>{
+      const opts = [...suggestionsEl.children];
+      if(e.key === 'ArrowDown'){
+        e.preventDefault(); if(opts.length===0) return; activeIndex = Math.min(activeIndex+1, opts.length-1); updateActiveSuggestion();
+      } else if(e.key === 'ArrowUp'){
+        e.preventDefault(); if(opts.length===0) return; activeIndex = Math.max(activeIndex-1, 0); updateActiveSuggestion();
+      } else if(e.key === 'Enter'){
+        e.preventDefault(); if(opts.length && activeIndex >= 0){ opts[activeIndex].click(); return; }
+        const exact = availableCharacters.find(c => c.name.toLowerCase() === input.value.trim().toLowerCase());
+        if(exact){ addGuess(exact); input.value=''; suggestionsEl.innerHTML=''; }
+      }
+    });
+
+    function updateActiveSuggestion(){
+      const opts = [...suggestionsEl.children];
+      opts.forEach((o,idx)=> o.classList.toggle('active', idx === activeIndex));
+      if(activeIndex>=0 && opts[activeIndex]) opts[activeIndex].scrollIntoView({block:'nearest',behavior:'smooth'});
+    }
+
+    function addGuess(guess){
+      if([...guessesEl.querySelectorAll('.guess')].some(r=>r.dataset.name === guess.name)) return;
+      const row = document.createElement('div'); row.className='guess'; row.dataset.name = guess.name;
+      const img = document.createElement('img'); img.src = guess.imageUrl + '.webp'; img.alt = guess.name; row.appendChild(img);
+      const attrs = ['name','gender','team','position','occupation','height_cm'];
+      attrs.forEach(attr=>{
+        const cell = document.createElement('div');
+        const guessVal = guess[attr] ? String(guess[attr]) : '';
+        const targetVal = target && target[attr] ? String(target[attr]) : '';
+        const guessLower = guessVal.toLowerCase(); const targetLower = targetVal.toLowerCase();
+        if(guessVal === targetVal){ cell.className='correct'; }
+        else if((targetLower && guessLower && (targetLower.includes(guessLower) || guessLower.includes(targetLower)))){ cell.className='partial'; }
+        else { cell.className='wrong'; }
+        if(attr === 'height_cm'){ let hint=''; const gH=Number(guessVal), tH=Number(targetVal); if(!isNaN(gH)&&!isNaN(tH)){ if(tH>gH) hint=' ↑'; else if(tH<gH) hint=' ↓'; } cell.textContent = guessVal + hint; }
+        else cell.textContent = guessVal;
+        row.appendChild(cell);
+      });
+      guessesEl.appendChild(row);
+      availableCharacters = availableCharacters.filter(c=>c.name !== guess.name);
+      updateStats();
+      if(guess.name === target.name){ showVictoryModal(target); }
+    }
+
+    function showVictoryModal(character){ winnerImage.src = character.imageUrl + '.webp'; winnerName.textContent = character.name; winnerTeam.textContent = character.team || ''; winModal.classList.add('show'); }
+
+    replayBtn.addEventListener('click', ()=> newGame());
+    playAgain.addEventListener('click', ()=>{ newGame(); winModal.classList.remove('show'); });
+    closeWin.addEventListener('click', ()=> winModal.classList.remove('show'));
+
+    loadCharacters();
+  </script>
 </body>
 </html>
