@@ -6,174 +6,7 @@
   <title>Haikyuu Wordle — Daily & Infinite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --accent:#e4813e;   /* orange */
-      --accent-2:#eb6a1a; /* deeper orange */
-      --bg-900:#0f1113;   /* page background (very dark) */
-      --card:#161618;     /* card background */
-      --muted:#cbd1d9;    /* muted text */
-      --success:#22c55e;
-      --partial:#f7e05a;
-      --wrong:#f87171;
-      --glass: rgba(255,255,255,0.02);
-      --shadow: 0 12px 40px rgba(2,6,23,0.7);
-    }
-
-    @keyframes correctPop {
-      0% { transform: scale(0.8); opacity: 0; }
-      40% { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    *{box-sizing:border-box}
-    html,body{min-height:100%}
-    body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Baloo 2',sans-serif;margin:0;background:linear-gradient(180deg,var(--bg-900),#0b0b0c 60%);background-attachment:fixed;display:flex;align-items:flex-start;justify-content:center;padding:28px;color:var(--muted)}
-
-    .center-wrap{width:900px;max-width:96vw;transition:max-width 0.3s;margin:auto}
-    .game-card{background:var(--card);border-radius:12px;padding:22px 22px 30px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.02)}
-
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    .brand{display:flex;flex-direction:column}
-    h1{font-family:'Baloo 2';margin:0;color:var(--accent);font-size:1.6rem}
-    .sub{color:var(--muted);font-size:13px}
-
-    .modes{display:flex;gap:8px}
-    .mode-btn{padding:8px 12px;border-radius:8px;border:none;background:transparent;color:var(--muted);font-weight:700;cursor:pointer}
-    .mode-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 6px 18px rgba(235,106,26,0.12)}
-
-    .box{margin:10px auto 0;max-width:560px}
-    .prompt{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));color:var(--muted);padding:16px;border-radius:8px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.02)}
-    .prompt small{display:block;font-weight:500;color:rgba(203,209,217,0.85);font-size:12px;margin-top:6px}
-
-    .search-container{position:relative}
-    .search-row{display:flex;margin-top:12px;gap:8px}
-    #input{flex:1;padding:12px 14px;border-radius:8px;border:2px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);font-size:15px;outline:none}
-    #input::placeholder{color:rgba(203,209,217,0.5)}
-
-    .icon-btn{padding:10px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;cursor:pointer}
-
-    #suggestions{position:absolute;top:100%;left:0;right:0;z-index:10;margin-top:8px;border-radius:8px;max-height:260px;overflow-y:auto;background:var(--card);border:1px solid rgba(255,255,255,0.05);box-shadow:var(--shadow)}
-    .suggestion-item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:8px;cursor:pointer;border:1px solid rgba(255,255,255,0.02);background:transparent;transition:transform .12s,box-shadow .12s}
-    .suggestion-item:hover{transform:translateX(4px);box-shadow:0 10px 28px rgba(2,6,23,0.6)}
-    .suggestion-item.active{background:linear-gradient(90deg, rgba(228,129,62,0.08), rgba(235,106,26,0.05));box-shadow:0 14px 40px rgba(235,106,26,0.06);transform:translateX(4px)}
-    .suggestion-image{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.03)}
-    .suggestion-name{font-weight:700;color:var(--muted)}
-    .suggestion-meta{font-size:12px;color:rgba(203,209,217,0.7)}
-
-    .guesses-wrapper {width: 100%; margin-top: 18px; padding-bottom: 8px;}
-    .guesses{display:flex;flex-direction:column;gap:10px}
-    .guess-header{display:none;background:transparent;border:none;padding-bottom:0;margin-bottom:8px}
-    .guess-header.show{display:grid}
-    .guess-header div{font-size:12px;font-weight:700;color:rgba(203,209,217,0.7);text-transform:uppercase;letter-spacing:0.5px;padding:0;background:transparent !important}
-
-    /* mimic wordle row tiles: smaller square cells */
-    .guess{display:grid;grid-template-columns:60px repeat(6,1fr);gap:8px;align-items:stretch;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02)}
-    .guess img{width:60px;height:60px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.03)}
-    .guess div{padding:8px;border-radius:6px;text-align:center;font-weight:600;font-size:13px;color:var(--muted);display:flex;align-items:center;justify-content:center;word-break:break-word;line-height:1.2}
-
-    .correct{background:var(--success);color:#02120a;animation:correctPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards}
-    .partial{background:var(--partial);color:#111}
-    .wrong{background:var(--wrong);color:#111}
-
-    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--muted);font-size:13px}
-    .stats{display:flex;gap:12px;align-items:center}
-    .stat{background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:8px;font-weight:700;color:var(--muted)}
-
-    /* modal */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:999}
-    .modal.show{display:flex}
-    .modal-card{background:var(--card);padding:18px;border-radius:12px;text-align:center;box-shadow:0 24px 70px rgba(2,6,23,0.8);border:1px solid rgba(255,255,255,0.02)}
-    .modal-card img{width:120px;height:120px;border-radius:10px;object-fit:cover;border:3px solid var(--accent);margin-bottom:12px}
-    .modal-card h2{color:var(--accent)}
-    .mode-btn, .icon-btn{font-family:inherit}
-    
-    .log-entry { background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; font-size: 14px; border-left: 4px solid var(--muted); margin-bottom: 8px; }
-    .log-win { border-left-color: var(--success); }
-    .log-loss { border-left-color: var(--wrong); }
-
-    .tournament-layout { display: flex; gap: 20px; align-items: stretch; }
-    @media (max-width: 768px) { .tournament-layout { flex-direction: column; } .court-right { width: 100%; max-width: 400px; margin: 0 auto; } }
-    .draft-left { flex: 1; min-width: 300px; }
-    .court-right { width: 320px; display: flex; flex-direction: column; gap: 15px; }
-    
-    .volleyball-court { width: 100%; aspect-ratio: 1 / 1.1; background: #c27a51; border: 4px solid #fff; position: relative; border-radius: 4px; box-shadow: inset 0 0 40px rgba(0,0,0,0.2); }
-    .volleyball-court::after { content: ''; position: absolute; top: 33%; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.8); }
-    .court-half { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); height: 100%; padding: 15px; gap: 10px; align-items: center; justify-items: center; }
-    
-    .court-slot { width: 65px; height: 65px; border-radius: 12px; background: rgba(0,0,0,0.3); border: 2px dashed rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; transition: all 0.2s; }
-    .court-slot:hover { transform: scale(1.1); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-    .court-slot.filled { border: 2px solid white; background: var(--bg-900); }
-    .court-slot img { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; }
-    .slot-label { position: absolute; bottom: -18px; font-size: 11px; font-weight: 800; background: rgba(2,6,23,0.8); padding: 3px 6px; border-radius: 4px; color: white; white-space: nowrap; z-index: 5; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
-    .court-slot.valid-drop { border-color: var(--accent); border-style: solid; background: rgba(228,129,62,0.15); box-shadow: 0 0 15px rgba(228,129,62,0.3); }
-    .court-slot.valid-drop.drag-over { transform: scale(1.15); box-shadow: 0 0 25px rgba(228,129,62,0.6); background: rgba(228,129,62,0.3); border-width: 3px; }
-    .court-slot.invalid-drop { border-color: rgba(255,255,255,0.05); opacity: 0.2; filter: grayscale(100%); pointer-events: none; }
-    
-    .bench-area { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-    .bench-area h3 { margin: 0 0 15px 0; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-    .bench-slots { display: flex; justify-content: center; gap: 20px; }
-
-    .shared-slot-wrapper { display: flex; gap: 6px; justify-content: center; align-items: center; width: 100%; height: 100%; }
-    .court-slot.mini-slot { width: 45px; height: 45px; border-width: 1px; }
-    .court-slot.mini-slot .slot-label { font-size: 9px; bottom: -14px; padding: 2px 4px; }
-    
-    .coach-area { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-    .coach-area h3 { margin: 0 0 15px 0; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-    .coach-slot-wrapper { display: flex; justify-content: center; }
-    
-    .draft-options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 15px; }
-    .draft-card { background: rgba(255,255,255,0.02); border: 2px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
-    .draft-card:hover { transform: translateY(-3px); border-color: var(--accent); background: rgba(255,255,255,0.05); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-    .draft-card.disabled { opacity: 0.3; cursor: not-allowed; transform: none; border-color: rgba(255,255,255,0.02); background: transparent; box-shadow: none; filter: grayscale(100%); }
-    .draft-card img { width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.05); }
-    .draft-card .name { font-size: 13px; font-weight: 700; color: white; margin-bottom: 3px; line-height: 1.2; }
-    .draft-card .pos { font-size: 11px; color: var(--accent); font-weight: 600; }
-    .draft-card .power { position: absolute; top: -8px; right: -8px; background: linear-gradient(135deg, #f59e0b, #ea580c); color: white; font-size: 11px; font-weight: 800; padding: 4px 6px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 2; border: 1px solid rgba(255,255,255,0.2); }
-    .draft-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 10px; width: 100%; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.05); }
-    .draft-card-stats div { display: flex; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 3px; }
-    .draft-card-stats span { color: rgba(255,255,255,0.5); font-weight: 600; }
-    .draft-card-stats strong { color: white; }
-
-    @keyframes playerAction {
-      0% { transform: translateY(0) scale(1); border-color: rgba(255,255,255,0.4); }
-      50% { transform: translateY(-15px) scale(1.15); border-color: var(--success); box-shadow: 0 10px 25px rgba(34, 197, 94, 0.6); z-index: 10; }
-      100% { transform: translateY(0) scale(1); border-color: white; z-index: 1; }
-    }
-    @keyframes playerFail {
-      0% { transform: translateX(0); border-color: rgba(255,255,255,0.4); }
-      25% { transform: translateX(-8px); border-color: var(--wrong); }
-      50% { transform: translateX(8px); box-shadow: 0 0 15px rgba(248, 113, 113, 0.6); z-index: 10; }
-      75% { transform: translateX(-8px); }
-      100% { transform: translateX(0); border-color: white; z-index: 1; }
-    }
-    .anim-action { animation: playerAction 0.8s ease-out; }
-    .anim-fail { animation: playerFail 0.6s ease-in-out; }
-    
-    .play-history { margin-top: 10px; max-height: 140px; overflow-y: auto; font-size: 12px; text-align: left; background: rgba(0,0,0,0.2); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 4px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
-    .history-event { padding: 5px; border-left: 3px solid var(--muted); background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; }
-    .history-win { border-left-color: var(--success); }
-    .history-loss { border-left-color: var(--wrong); }
-
-    .tournament-win-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(2,6,23,0.9); z-index: 1000; flex-direction: column; text-align: center; }
-    .tournament-win-modal.show { display: flex; animation: correctPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .tournament-win-card { background: linear-gradient(135deg, var(--card), #2a160c); padding: 40px; border-radius: 20px; box-shadow: 0 0 50px rgba(228,129,62,0.4); border: 2px solid var(--accent); max-width: 90%; }
-    .tournament-win-card h1 { font-size: 3rem; color: var(--accent); text-transform: uppercase; margin: 0 0 10px 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5); font-family: 'Baloo 2', sans-serif; }
-    .tournament-win-card p { font-size: 1.2rem; color: white; margin-bottom: 20px; }
-
-    @media (max-width: 720px) {
-      .guess { grid-template-columns: 48px repeat(6, 1fr); gap: 4px; padding: 6px; }
-      .guess img { width: 48px; height: 48px; }
-      .guess div { font-size: 11px; padding: 4px; }
-      .guess-header div { font-size: 10px; }
-    }
-    @media (max-width: 500px) {
-      .guess { grid-template-columns: 36px repeat(6, 1fr); gap: 3px; padding: 4px; }
-      .guess img { width: 36px; height: 36px; }
-      .guess div { font-size: 9px; padding: 2px; }
-      .guess-header div { font-size: 8px; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
@@ -182,7 +15,6 @@
       <header>
         <div class="brand">
           <h1>Haikyuu Wordle</h1>
-          <div class="sub">Guess the character by attributes — Daily (UTC) or Infinite</div>
         </div>
         <div class="modes">
           <button id="dailyBtn" class="mode-btn">Daily</button>
@@ -231,6 +63,7 @@
             <div id="tournamentPhase" style="display:none;">
               <h2 style="color:var(--accent);margin-top:0;font-family:'Baloo 2'">Tournament Phase</h2>
               <h3 style="margin-top:0; color:var(--muted);">Court Power: <strong id="teamPowerDisplay" style="color:white; font-size: 1.2em;">0</strong></h3>
+              <div id="synergyDisplay" style="font-size: 13px; font-weight: bold; margin-bottom: 10px; min-height: 18px;"></div>
               <p style="font-size: 13px; color:rgba(203,209,217,0.7); margin-bottom:15px;">Tip: Click a bench player and a court player to swap them between matches if needed.</p>
               <button id="simMatchBtn" class="icon-btn" style="width:100%;margin-bottom:15px;padding:14px;font-size:15px;background:linear-gradient(90deg, #22c55e, #16a34a);">Simulate Match</button>
               <div id="tournamentLog" style="display:flex;flex-direction:column;text-align:left;"></div>
@@ -275,6 +108,19 @@
 
   <div class="modal" id="winModal"><div class="modal-card"><img id="winnerImage" src="" alt="winner"><h2 id="winnerName">You got it right!</h2><p id="winnerTeam"></p><div style="margin-top:12px;display:flex;gap:8px;justify-content:center"><button id="playAgain" class="icon-btn">Play Again</button><button id="closeWin" class="mode-btn">Close</button></div></div></div>
 
+  <div class="synergy-event-modal" id="synergyEventModal">
+    <div class="synergy-scoreboard">
+      <span class="syn-score me" id="synScoreMe">0</span>
+      <span>-</span>
+      <span class="syn-score enemy" id="synScoreEnemy">0</span>
+    </div>
+    <div class="synergy-img-container">
+      <img id="synergyEventImage" src="" alt="Synergy Attack" onerror="this.style.display='none'">
+      <div class="synergy-img-overlay"></div>
+    </div>
+    <div class="synergy-title" id="synergyEventTitle">Freak Quick!</div>
+  </div>
+
   <div class="tournament-win-modal" id="tournamentWinModal">
     <div class="tournament-win-card">
       <h1>🏆 Champions! 🏆</h1>
@@ -316,7 +162,18 @@
     let currentDraftTeam = '';
     let tournamentStage = 0;
     let selectedSlotForSwap = null;
-    let matchInterval = null;
+    let matchTimeout = null;
+    let currentActiveSynergies = [];
+
+    const SYNERGY_DEFS = [
+      { id: "freak_quick", name: "Freak Quick", players: ["Tobio Kageyama", "Shoyo Hinata"], power: 5 },
+      { id: "karasuno_3rd", name: "Karasuno 3rd Years", players: ["Asahi Azumane", "Kōshi Sugawara", "Daichi Sawamura"], power: 8 },
+      { id: "nekoma_brain", name: "Nekoma Brain & Blood", players: ["Tetsurō Kuroo", "Kenma Kozume"], power: 5 },
+      { id: "miya_twins", name: "Miya Twins", players: ["Atsumu Miya", "Osamu Miya"], power: 5 },
+      { id: "fukurodani_duo", name: "Fukurodani Duo", players: ["Kōtarō Bokuto", "Keiji Akaashi"], power: 5 },
+      { id: "date_tech", name: "Date Tech Iron Wall", players: ["Takanobu Aone", "Kenji Futakuchi", "Kanji Koganegawa"], power: 8 }
+    ];
+
     const TOURNAMENT_STAGES = [
       { name: "Prefectural Qualifiers", oppPower: 580 },
       { name: "Spring Tournament Semifinals", oppPower: 620 },
@@ -377,7 +234,7 @@
     }
 
     function newGame(){
-      if (matchInterval) clearInterval(matchInterval);
+      if (matchTimeout) clearTimeout(matchTimeout);
       if (mode === 'tournament') { startTournamentDraft(); return; }
       
       availableCharacters = [...characters];
@@ -668,7 +525,7 @@
     }
 
     function startTournamentDraft() {
-      if (matchInterval) clearInterval(matchInterval);
+      if (matchTimeout) clearTimeout(matchTimeout);
       roster = { S: null, OH1: null, OH2: null, OP: null, MB1: null, MB2: null, LI: null, B1: null, B2: null, C: null };
       tournamentStage = 0;
       selectedSlotForSwap = null;
@@ -747,14 +604,36 @@
 
     function calculateTeamPower() {
       let power = 0;
-      ['S', 'OH1', 'OH2', 'OP', 'MB1', 'MB2', 'LI'].forEach(slot => {
-        if (roster[slot]) power += roster[slot].power;
+      let activeNames = [];
+      ['S', 'OH1', 'OH2', 'OP', 'MB1', 'MB2', 'LI', 'C', 'B1', 'B2'].forEach(slot => {
+        if (roster[slot]) {
+          power += slot === 'C' ? roster[slot].power * 0.2 : (slot.startsWith('B') ? roster[slot].power * 0.05 : roster[slot].power);
+          activeNames.push(roster[slot].name);
+        }
       });
-      // Add bonuses
-      if (roster.C) power += roster.C.power * 0.2;
-      if (roster.B1) power += roster.B1.power * 0.05;
-      if (roster.B2) power += roster.B2.power * 0.05;
-      return Math.floor(power);
+
+      // Synergies
+      const has = (name) => activeNames.includes(name);
+      let synergyBonus = 0;
+      currentActiveSynergies = [];
+
+      SYNERGY_DEFS.forEach(syn => {
+          if (syn.players.every(has)) {
+              synergyBonus += syn.power;
+              currentActiveSynergies.push(syn);
+          }
+      });
+
+      const synergyDisplay = document.getElementById('synergyDisplay');
+      if (synergyDisplay) {
+        if (currentActiveSynergies.length > 0) {
+          synergyDisplay.innerHTML = `<span style="color:var(--partial)">Synergies: ${currentActiveSynergies.map(s => s.name).join(', ')} (+${synergyBonus})</span>`;
+        } else {
+          synergyDisplay.innerHTML = '';
+        }
+      }
+
+      return Math.floor(power + synergyBonus);
     }
 
     function updateTeamPowerDisplay() {
@@ -918,7 +797,105 @@
       const activeSlots = ['S', 'OH1', 'OH2', 'OP', 'MB1', 'MB2', 'LI', 'C'];
       const activePlayers = activeSlots.map(s => ({slotId: s, player: roster[s]})).filter(o => o.player !== null);
 
-      matchInterval = setInterval(() => {
+      function finishMatch() {
+        simMatchBtn.disabled = false;
+        simMatchBtn.style.pointerEvents = 'auto';
+        simMatchBtn.style.opacity = '1';
+        simMatchBtn.textContent = 'Simulate Next Match';
+        
+        const win = myScore >= 5;
+        matchHeader.classList.add(win ? 'log-win' : 'log-loss');
+        
+        const resultText = document.createElement('div');
+        resultText.style.marginTop = '15px';
+        resultText.style.fontWeight = 'bold';
+        resultText.style.fontSize = '15px';
+        resultText.innerHTML = win ? '🎉 Victory! Advanced to next round.' : '❌ Defeat. Eliminated.';
+        matchHeader.appendChild(resultText);
+
+        if (win) {
+          tournamentStage++;
+          if (tournamentStage >= TOURNAMENT_STAGES.length) {
+            simMatchBtn.style.display = 'none';
+            const champ = document.createElement('div');
+            champ.innerHTML = `🏆 <strong>NATIONAL CHAMPIONS!</strong> 🏆<br>Your drafted team won it all!`;
+            champ.style.color = 'var(--accent)';
+            champ.style.marginTop = '15px';
+            champ.style.fontWeight = 'bold';
+            champ.style.fontSize = '18px';
+            champ.style.textAlign = 'center';
+            tournamentLog.prepend(champ);
+            restartTournamentBtn.style.display = 'inline-block';
+            
+            tournamentWinModal.classList.add('show');
+            if (typeof window.confetti === 'function') {
+              const duration = 3000;
+              const end = Date.now() + duration;
+              (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) requestAnimationFrame(frame);
+              }());
+            }
+          }
+        } else {
+          simMatchBtn.style.display = 'none';
+          restartTournamentBtn.style.display = 'inline-block';
+        }
+      }
+
+      function triggerSynergyCinematic(syn) {
+        const modal = document.getElementById('synergyEventModal');
+        const img = document.getElementById('synergyEventImage');
+        const title = document.getElementById('synergyEventTitle');
+        const scoreM = document.getElementById('synScoreMe');
+        const scoreE = document.getElementById('synScoreEnemy');
+
+        scoreM.textContent = myScore;
+        scoreM.className = 'syn-score me';
+        scoreE.textContent = enemyScore;
+        title.textContent = syn.name + "!";
+        img.src = `SynergyImages/${syn.id}.webp`;
+
+        modal.classList.add('show');
+
+        // Cinematic point scoring
+        setTimeout(() => {
+            myScore++;
+            scoreM.textContent = myScore;
+            scoreM.classList.add('score-pop');
+
+            playByPlay.innerHTML = `🌟 SYNERGY: <strong style="color:var(--accent)">${syn.name}</strong>! Unstoppable attack!`;
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-event history-win';
+            historyItem.innerHTML = `<strong style="color:var(--success)">[${myScore}-${enemyScore}]</strong> 🌟 SYNERGY ACTIVATED: ${syn.name} guarantees the point!`;
+            playHistory.appendChild(historyItem);
+            playHistory.scrollTop = playHistory.scrollHeight;
+            scoreMe.textContent = myScore;
+
+        }, 1500);
+
+        // Resume match
+        setTimeout(() => {
+            modal.classList.remove('show');
+            scoreM.classList.remove('score-pop');
+            matchTimeout = setTimeout(playPoint, 1000);
+        }, 3500);
+      }
+
+      function playPoint() {
+        if (myScore >= 5 || enemyScore >= 5) {
+          finishMatch();
+          return;
+        }
+
+        // 15% chance to trigger synergy if active synergies exist
+        if (currentActiveSynergies.length > 0 && Math.random() < 0.15) {
+          const syn = currentActiveSynergies[Math.floor(Math.random() * currentActiveSynergies.length)];
+          triggerSynergyCinematic(syn);
+          return;
+        }
+
         let myWinChance = 0.5 + ((myPower - enemyPower) / 600); 
         myWinChance = Math.max(0.2, Math.min(0.8, myWinChance)); // Clamp 20% to 80%
         
@@ -945,55 +922,10 @@
             slotEl.classList.add(eventData.anim);
         }
         
-        if (myScore >= 5 || enemyScore >= 5) {
-            clearInterval(matchInterval);
-            
-            simMatchBtn.disabled = false;
-            simMatchBtn.style.pointerEvents = 'auto';
-            simMatchBtn.style.opacity = '1';
-            simMatchBtn.textContent = 'Simulate Next Match';
-            
-            const win = myScore >= 5;
-            matchHeader.classList.add(win ? 'log-win' : 'log-loss');
-            
-            const resultText = document.createElement('div');
-            resultText.style.marginTop = '15px';
-            resultText.style.fontWeight = 'bold';
-            resultText.style.fontSize = '15px';
-            resultText.innerHTML = win ? '🎉 Victory! Advanced to next round.' : '❌ Defeat. Eliminated.';
-            matchHeader.appendChild(resultText);
-
-      if (win) {
-        tournamentStage++;
-        if (tournamentStage >= TOURNAMENT_STAGES.length) {
-          simMatchBtn.style.display = 'none';
-          const champ = document.createElement('div');
-          champ.innerHTML = `🏆 <strong>NATIONAL CHAMPIONS!</strong> 🏆<br>Your drafted team won it all!`;
-          champ.style.color = 'var(--accent)';
-          champ.style.marginTop = '15px';
-          champ.style.fontWeight = 'bold';
-          champ.style.fontSize = '18px';
-          champ.style.textAlign = 'center';
-          tournamentLog.prepend(champ);
-          restartTournamentBtn.style.display = 'inline-block';
-          
-          tournamentWinModal.classList.add('show');
-          if (typeof window.confetti === 'function') {
-            const duration = 3000;
-            const end = Date.now() + duration;
-            (function frame() {
-              confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
-              confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
-              if (Date.now() < end) requestAnimationFrame(frame);
-            }());
-          }
-        }
-      } else {
-        simMatchBtn.style.display = 'none';
-        restartTournamentBtn.style.display = 'inline-block';
+        matchTimeout = setTimeout(playPoint, 1800);
       }
-        }
-      }, 1800);
+
+      matchTimeout = setTimeout(playPoint, 1800);
     });
 
     restartTournamentBtn.addEventListener('click', startTournamentDraft);
