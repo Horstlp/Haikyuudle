@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Haikyuu Wordle — Daily & Infinite</title>
+  <title>Haikyudle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -14,7 +14,7 @@
     <div class="game-card">
       <header>
         <div class="brand">
-          <h1>Haikyuu Wordle</h1>
+          <h1>Haikyudle</h1>
         </div>
         <div class="modes">
           <button id="dailyBtn" class="mode-btn">Daily</button>
@@ -47,62 +47,68 @@
 
         <div class="footer">
           <div class="stats"><div class="stat">Guesses: <span id="statGuesses">0</span></div></div>
-          <div style="font-size:13px;color:var(--muted)">Unlimited guesses — play at your pace</div>
+          <div class="footer-text">Unlimited guesses — play at your pace</div>
         </div>
       </div>
 
-      <div id="tournamentGame" style="display:none; width: 100%; max-width: 900px; margin: 10px auto;">
+      <div id="tournamentGame" style="display:none;">
+        <div class="Game-title">
+        <h2>Team Draft</h2>
+        <p id="draftPrompt">Round 1 of 10: Drag a player to the court (or click to auto-assign)</p>
+        </div>
         <div class="tournament-layout">
-          <div class="draft-left box" style="margin: 0; max-width: none; flex: 1;">
+          <div class="draft-left box">
             <div id="draftPhase">
-              <h2 style="color:var(--accent);margin-top:0;font-family:'Baloo 2'">Team Draft</h2>
-              <p id="draftPrompt" style="margin-bottom:12px;font-size:15px;">Round 1 of 10: Drag a player to the court (or click to auto-assign)</p>
               <div id="draftOptions" class="draft-options-grid"></div>
             </div>
             
             <div id="tournamentPhase" style="display:none;">
-              <h2 style="color:var(--accent);margin-top:0;font-family:'Baloo 2'">Tournament Phase</h2>
-              <h3 style="margin-top:0; color:var(--muted);">Court Power: <strong id="teamPowerDisplay" style="color:white; font-size: 1.2em;">0</strong></h3>
-              <div id="synergyDisplay" style="font-size: 13px; font-weight: bold; margin-bottom: 10px; min-height: 18px;"></div>
-              <p style="font-size: 13px; color:rgba(203,209,217,0.7); margin-bottom:15px;">Tip: Click a bench player and a court player to swap them between matches if needed.</p>
-              <button id="simMatchBtn" class="icon-btn" style="width:100%;margin-bottom:15px;padding:14px;font-size:15px;background:linear-gradient(90deg, #22c55e, #16a34a);">Simulate Match</button>
-              <div id="tournamentLog" style="display:flex;flex-direction:column;text-align:left;"></div>
-              <button id="restartTournamentBtn" class="mode-btn" style="display:none;width:100%;margin-top:15px;background:rgba(255,255,255,0.05);">Restart Tournament</button>
+              <h2 class="phase-title">Tournament Phase</h2>
+              <h3 class="court-power-title">Court Power: <strong id="teamPowerDisplay">0</strong></h3>
+              <div id="synergyDisplay"></div>
+              <p class="tournament-tip">Tip: Click a bench player and a court player to swap them between matches if needed.</p>
+              <button id="simMatchBtn" class="icon-btn">Simulate Match</button>
+              <div id="tournamentLog"></div>
+              <button id="restartTournamentBtn" class="mode-btn" style="display:none;">Restart Tournament</button>
             </div>
           </div>
           
-          <div class="court-right box" style="margin: 0; padding: 15px;">
+          <div class="court-right box">
             <div class="volleyball-court">
-              <div class="court-half">
-                <div class="court-slot" data-slot="OH1"><div class="slot-label">OH</div></div>
-                <div class="court-slot" data-slot="MB1"><div class="slot-label">MB</div></div>
-                <div class="court-slot" data-slot="OP"><div class="slot-label">OP</div></div>
-                
-                <div class="court-slot" data-slot="OH2"><div class="slot-label">OH</div></div>
-                <div class="shared-slot-wrapper">
-                  <div class="court-slot mini-slot" data-slot="MB2"><div class="slot-label">MB</div></div>
-                  <div class="court-slot mini-slot" data-slot="LI"><div class="slot-label">LI</div></div>
+              <div class="court-field">
+                <div class="front-court">
+                  <div class="court-slot" data-slot="OH1"><div class="slot-label">OH</div></div>
+                  <div class="court-slot" data-slot="MB1"><div class="slot-label">MB</div></div>
+                  <div class="court-slot" data-slot="OP"><div class="slot-label">OP</div></div>
                 </div>
-                <div class="court-slot" data-slot="S"><div class="slot-label">S</div></div>
+                <div class="back-court">
+                  <div class="court-slot" data-slot="OH2"><div class="slot-label">OH</div></div>
+                  <div class="shared-slot-wrapper">
+                  <div class="court-slot" data-slot="MB2"><div class="slot-label">MB</div></div>
+                  <div class="court-slot" data-slot="LI"><div class="slot-label">LI</div></div>
+                  </div>
+                  <div class="court-slot" data-slot="S"><div class="slot-label">S</div></div>
+                </div>
               </div>
             </div>
-            <div class="bench-area">
-              <h3>Bench</h3>
-              <div class="bench-slots">
-                <div class="court-slot bench-slot" data-slot="B1"><div class="slot-label">B</div></div>
-                <div class="court-slot bench-slot" data-slot="B2"><div class="slot-label">B</div></div>
-              </div>
-            </div>
-            <div class="coach-area" style="margin-top: 15px;">
-              <h3>Coach</h3>
-              <div class="coach-slot-wrapper">
+            <div class="sideline-area">
+              <div class="coach-area">
+                <h3>Coach</h3>
+                <div class="coach-slot">
                 <div class="court-slot" data-slot="C"><div class="slot-label">C</div></div>
+              </div>
+              </div>
+              <div class="bench-area">
+                <h3>Bench</h3>
+                <div class="bench-slots">
+                  <div class="court-slot bench-slot" data-slot="B1"><div class="slot-label">B</div></div>
+                  <div class="court-slot bench-slot" data-slot="B2"><div class="slot-label">B</div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
