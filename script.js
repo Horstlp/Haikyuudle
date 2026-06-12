@@ -28,6 +28,9 @@ function newGame() {
   availableCharacters = [...characters];
   target = availableCharacters[Math.floor(Math.random() * availableCharacters.length)];
   document.getElementById("guesses").innerHTML = "";
+  const header = document.getElementById("guessesHeader");
+  if (header) header.classList.remove("show");
+
   document.getElementById("replay").style.display = "none";
   document.getElementById("winModal").style.display = "none";
   document.getElementById("input").value = "";
@@ -80,28 +83,33 @@ function addGuess(guess) {
   const row = document.createElement("div");
   row.className = "guess";
 
-  // ⬅️ Character Image
-  const imgContainer = document.createElement("div");
-  imgContainer.className = "guess-image-wrapper";
-
   const img = document.createElement("img");
   img.src = guess.imageUrl + ".webp"; // adjust to .jpg/.webp if needed
   img.alt = guess.name;
   img.className = "guess-image";
 
-  imgContainer.appendChild(img);
-  row.appendChild(imgContainer);
+  row.appendChild(img);
 
   // 🔍 Attribute comparison
   const attrs = ["name", "gender", "team", "position", "occupation", "height_cm"];
   attrs.forEach((attr) => {
     const cell = document.createElement("div");
-    const guessVal = guess[attr] ? String(guess[attr]) : "";
-    const targetVal = target[attr] ? String(target[attr]) : "";
+    
+    let guessVal = guess[attr];
+    let targetVal = target ? target[attr] : null;
+
+    if (guessVal === null || guessVal === undefined || guessVal === '') guessVal = 'Unknown';
+    if (targetVal === null || targetVal === undefined || targetVal === '') targetVal = 'Unknown';
+
+    guessVal = String(guessVal);
+    targetVal = String(targetVal);
+
+    const guessLower = guessVal.toLowerCase();
+    const targetLower = targetVal.toLowerCase();
 
     if (guessVal === targetVal) {
       cell.className = "correct";
-    } else if (targetVal.includes(guessVal) || guessVal.includes(targetVal)) {
+    } else if (guessVal !== 'Unknown' && targetVal !== 'Unknown' && (targetLower.includes(guessLower) || guessLower.includes(targetLower))) {
       cell.className = "partial";
     } else {
       cell.className = "wrong";
@@ -115,7 +123,7 @@ function addGuess(guess) {
         if (targetHeight > guessHeight) hint = " ↑ ";
         else if (targetHeight < guessHeight) hint = " ↓ ";
       }
-      cell.textContent = guessVal + hint;
+      cell.textContent = guessVal !== 'Unknown' ? guessVal + hint : 'Unknown';
     } else {
       cell.textContent = guessVal;
     }
@@ -124,6 +132,9 @@ function addGuess(guess) {
   });
 
   document.getElementById("guesses").appendChild(row);
+  const header = document.getElementById("guessesHeader");
+  if (header) header.classList.add("show");
+
   availableCharacters = availableCharacters.filter((c) => c.name !== guess.name);
 
   if (guess.name === target.name) {
@@ -136,6 +147,7 @@ function showVictoryModal(character) {
   document.getElementById("winnerImage").src = character.imageUrl + ".webp"; // or .jpg
   document.getElementById("winnerName").textContent = character.name;
   document.getElementById("winModal").style.display = "flex";
+  if (typeof window.confetti === 'function') confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
 }
 
 

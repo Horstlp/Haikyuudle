@@ -20,11 +20,17 @@
       --shadow: 0 12px 40px rgba(2,6,23,0.7);
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Baloo 2',sans-serif;margin:0;background:linear-gradient(180deg,var(--bg-900),#0b0b0c 60%);display:flex;align-items:center;justify-content:center;padding:28px;color:var(--muted)}
+    @keyframes correctPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      40% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
 
-    .center-wrap{width:720px;max-width:96vw}
+    *{box-sizing:border-box}
+    html,body{min-height:100%}
+    body{font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Baloo 2',sans-serif;margin:0;background:linear-gradient(180deg,var(--bg-900),#0b0b0c 60%);background-attachment:fixed;display:flex;align-items:flex-start;justify-content:center;padding:28px;color:var(--muted)}
+
+    .center-wrap{width:900px;max-width:96vw;transition:max-width 0.3s;margin:auto}
     .game-card{background:var(--card);border-radius:12px;padding:22px 22px 30px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.02)}
 
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
@@ -40,13 +46,14 @@
     .prompt{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));color:var(--muted);padding:16px;border-radius:8px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.02)}
     .prompt small{display:block;font-weight:500;color:rgba(203,209,217,0.85);font-size:12px;margin-top:6px}
 
+    .search-container{position:relative}
     .search-row{display:flex;margin-top:12px;gap:8px}
     #input{flex:1;padding:12px 14px;border-radius:8px;border:2px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);font-size:15px;outline:none}
     #input::placeholder{color:rgba(203,209,217,0.5)}
 
     .icon-btn{padding:10px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;cursor:pointer}
 
-    #suggestions{margin-top:10px;border-radius:8px;max-height:260px;overflow:auto}
+    #suggestions{position:absolute;top:100%;left:0;right:0;z-index:10;margin-top:8px;border-radius:8px;max-height:260px;overflow-y:auto;background:var(--card);border:1px solid rgba(255,255,255,0.05);box-shadow:var(--shadow)}
     .suggestion-item{display:flex;gap:12px;align-items:center;padding:10px;border-radius:8px;cursor:pointer;border:1px solid rgba(255,255,255,0.02);background:transparent;transition:transform .12s,box-shadow .12s}
     .suggestion-item:hover{transform:translateX(4px);box-shadow:0 10px 28px rgba(2,6,23,0.6)}
     .suggestion-item.active{background:linear-gradient(90deg, rgba(228,129,62,0.08), rgba(235,106,26,0.05));box-shadow:0 14px 40px rgba(235,106,26,0.06);transform:translateX(4px)}
@@ -54,13 +61,18 @@
     .suggestion-name{font-weight:700;color:var(--muted)}
     .suggestion-meta{font-size:12px;color:rgba(203,209,217,0.7)}
 
-    .guesses{margin-top:18px;display:flex;flex-direction:column;gap:10px}
-    /* mimic wordle row tiles: smaller square cells */
-    .guess{display:grid;grid-template-columns:56px repeat(6,1fr);gap:8px;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02)}
-    .guess img{width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.03)}
-    .guess div{padding:10px;border-radius:6px;text-align:center;font-weight:700;color:var(--muted)}
+    .guesses-wrapper {width: 100%; margin-top: 18px; padding-bottom: 8px;}
+    .guesses{display:flex;flex-direction:column;gap:10px}
+    .guess-header{display:none;background:transparent;border:none;padding-bottom:0;margin-bottom:8px}
+    .guess-header.show{display:grid}
+    .guess-header div{font-size:12px;font-weight:700;color:rgba(203,209,217,0.7);text-transform:uppercase;letter-spacing:0.5px;padding:0;background:transparent !important}
 
-    .correct{background:var(--success);color:#02120a}
+    /* mimic wordle row tiles: smaller square cells */
+    .guess{display:grid;grid-template-columns:60px repeat(6,1fr);gap:8px;align-items:stretch;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02)}
+    .guess img{width:60px;height:60px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.03)}
+    .guess div{padding:8px;border-radius:6px;text-align:center;font-weight:600;font-size:13px;color:var(--muted);display:flex;align-items:center;justify-content:center;word-break:break-word;line-height:1.2}
+
+    .correct{background:var(--success);color:#02120a;animation:correctPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards}
     .partial{background:var(--partial);color:#111}
     .wrong{background:var(--wrong);color:#111}
 
@@ -75,9 +87,65 @@
     .modal-card img{width:120px;height:120px;border-radius:10px;object-fit:cover;border:3px solid var(--accent);margin-bottom:12px}
     .modal-card h2{color:var(--accent)}
     .mode-btn, .icon-btn{font-family:inherit}
+    
+    .log-entry { background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; font-size: 14px; border-left: 4px solid var(--muted); margin-bottom: 8px; }
+    .log-win { border-left-color: var(--success); }
+    .log-loss { border-left-color: var(--wrong); }
 
-    @media (max-width:640px){ .guess{grid-template-columns:48px repeat(6,1fr)} }
+    .tournament-layout { display: flex; gap: 20px; align-items: stretch; }
+    @media (max-width: 768px) { .tournament-layout { flex-direction: column; } .court-right { width: 100%; max-width: 400px; margin: 0 auto; } }
+    .draft-left { flex: 1; min-width: 300px; }
+    .court-right { width: 320px; display: flex; flex-direction: column; gap: 15px; }
+    
+    .volleyball-court { width: 100%; aspect-ratio: 1 / 1.1; background: #c27a51; border: 4px solid #fff; position: relative; border-radius: 4px; box-shadow: inset 0 0 40px rgba(0,0,0,0.2); }
+    .volleyball-court::after { content: ''; position: absolute; top: 33%; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.8); }
+    .court-half { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); height: 100%; padding: 15px; gap: 10px; align-items: center; justify-items: center; }
+    
+    .court-slot { width: 65px; height: 65px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 2px dashed rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+    .court-slot:hover { transform: scale(1.05); border-color: white; }
+    .court-slot.filled { border: 2px solid white; background: var(--bg-900); }
+    .court-slot img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .slot-label { position: absolute; bottom: -18px; font-size: 11px; font-weight: 800; background: rgba(2,6,23,0.8); padding: 3px 6px; border-radius: 4px; color: white; white-space: nowrap; z-index: 5; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
+    
+    .bench-area { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+    .bench-area h3 { margin: 0 0 15px 0; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .bench-slots { display: flex; justify-content: center; gap: 20px; }
+
+    .shared-slot-wrapper { display: flex; gap: 6px; justify-content: center; align-items: center; width: 100%; height: 100%; }
+    .court-slot.mini-slot { width: 45px; height: 45px; border-width: 1px; }
+    .court-slot.mini-slot .slot-label { font-size: 9px; bottom: -14px; padding: 2px 4px; }
+    
+    .coach-area { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+    .coach-area h3 { margin: 0 0 15px 0; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .coach-slot-wrapper { display: flex; justify-content: center; }
+    
+    .draft-options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-top: 15px; }
+    .draft-card { background: rgba(255,255,255,0.02); border: 2px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+    .draft-card:hover { transform: translateY(-3px); border-color: var(--accent); background: rgba(255,255,255,0.05); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+    .draft-card.disabled { opacity: 0.3; cursor: not-allowed; transform: none; border-color: rgba(255,255,255,0.02); background: transparent; box-shadow: none; filter: grayscale(100%); }
+    .draft-card img { width: 100%; aspect-ratio: 1; border-radius: 8px; object-fit: cover; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.05); }
+    .draft-card .name { font-size: 13px; font-weight: 700; color: white; margin-bottom: 3px; line-height: 1.2; }
+    .draft-card .pos { font-size: 11px; color: var(--accent); font-weight: 600; }
+    .draft-card .power { position: absolute; top: -8px; right: -8px; background: linear-gradient(135deg, #f59e0b, #ea580c); color: white; font-size: 11px; font-weight: 800; padding: 4px 6px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 2; border: 1px solid rgba(255,255,255,0.2); }
+    .draft-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 10px; width: 100%; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .draft-card-stats div { display: flex; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 3px; }
+    .draft-card-stats span { color: rgba(255,255,255,0.5); font-weight: 600; }
+    .draft-card-stats strong { color: white; }
+
+    @media (max-width: 720px) {
+      .guess { grid-template-columns: 48px repeat(6, 1fr); gap: 4px; padding: 6px; }
+      .guess img { width: 48px; height: 48px; }
+      .guess div { font-size: 11px; padding: 4px; }
+      .guess-header div { font-size: 10px; }
+    }
+    @media (max-width: 500px) {
+      .guess { grid-template-columns: 36px repeat(6, 1fr); gap: 3px; padding: 4px; }
+      .guess img { width: 36px; height: 36px; }
+      .guess div { font-size: 9px; padding: 2px; }
+      .guess-header div { font-size: 8px; }
+    }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
   <div class="center-wrap">
@@ -90,22 +158,80 @@
         <div class="modes">
           <button id="dailyBtn" class="mode-btn">Daily</button>
           <button id="infiniteBtn" class="mode-btn">Infinite</button>
+          <button id="tournamentBtn" class="mode-btn">Tournament</button>
         </div>
       </header>
 
-      <div class="box">
-        <div class="search-row">
-          <input id="input" placeholder="Type a character name..." autocomplete="off" disabled />
-          <button class="icon-btn" id="replay">New Game</button>
+      <div id="wordleGame" class="box">
+        <div class="search-container">
+          <div class="search-row">
+            <input id="input" placeholder="Type a character name..." autocomplete="off" disabled />
+            <button class="icon-btn" id="replay">New Game</button>
+          </div>
+          <div id="suggestions" role="listbox" aria-label="suggestions"></div>
         </div>
 
-        <div id="suggestions" role="listbox" aria-label="suggestions"></div>
-
-        <div id="guesses" class="guesses" aria-live="polite"></div>
+        <div class="guesses-wrapper">
+          <div id="guessesHeader" class="guess guess-header">
+            <div>Image</div>
+            <div>Name</div>
+            <div>Gender</div>
+            <div>Team</div>
+            <div>Position</div>
+            <div>Occupation</div>
+            <div>Height</div>
+          </div>
+          <div id="guesses" class="guesses" aria-live="polite"></div>
+        </div>
 
         <div class="footer">
           <div class="stats"><div class="stat">Guesses: <span id="statGuesses">0</span></div></div>
           <div style="font-size:13px;color:var(--muted)">Unlimited guesses — play at your pace</div>
+        </div>
+      </div>
+
+      <div id="tournamentGame" style="display:none; width: 100%; max-width: 900px; margin: 10px auto;">
+        <div class="tournament-layout">
+          <div class="draft-left box" style="margin: 0; max-width: none; flex: 1;">
+            <div id="draftPhase">
+              <h2 style="color:var(--accent);margin-top:0;font-family:'Baloo 2'">Team Draft</h2>
+              <p id="draftPrompt" style="margin-bottom:12px;font-size:15px;">Round 1 of 10: Drag a player to the court (or click to auto-assign)</p>
+              <div id="draftOptions" class="draft-options-grid"></div>
+            </div>
+            
+            <div id="tournamentPhase" style="display:none;">
+              <h2 style="color:var(--accent);margin-top:0;font-family:'Baloo 2'">Tournament Phase</h2>
+              <h3 style="margin-top:0; color:var(--muted);">Court Power: <strong id="teamPowerDisplay" style="color:white; font-size: 1.2em;">0</strong></h3>
+              <p style="font-size: 13px; color:rgba(203,209,217,0.7); margin-bottom:15px;">Tip: Click a bench player and a court player to swap them between matches if needed.</p>
+              <button id="simMatchBtn" class="icon-btn" style="width:100%;margin-bottom:15px;padding:14px;font-size:15px;background:linear-gradient(90deg, #22c55e, #16a34a);">Simulate Match</button>
+              <div id="tournamentLog" style="display:flex;flex-direction:column;text-align:left;"></div>
+              <button id="restartTournamentBtn" class="mode-btn" style="display:none;width:100%;margin-top:15px;background:rgba(255,255,255,0.05);">Restart Tournament</button>
+            </div>
+          </div>
+          
+          <div class="court-right box" style="margin: 0; padding: 15px;">
+            <div class="volleyball-court">
+              <div class="court-half">
+                <div class="court-slot" data-slot="OH1"><div class="slot-label">OH</div></div>
+                <div class="court-slot" data-slot="MB1"><div class="slot-label">MB</div></div>
+                <div class="court-slot" data-slot="OP"><div class="slot-label">OP</div></div>
+                
+                <div class="court-slot" data-slot="OH2"><div class="slot-label">OH</div></div>
+                <div class="shared-slot-wrapper">
+                  <div class="court-slot mini-slot" data-slot="MB2"><div class="slot-label">MB</div></div>
+                  <div class="court-slot mini-slot" data-slot="LI"><div class="slot-label">LI</div></div>
+                </div>
+                <div class="court-slot" data-slot="S"><div class="slot-label">S</div></div>
+              </div>
+            </div>
+            <div class="bench-area">
+              <h3>Bench</h3>
+              <div class="bench-slots">
+                <div class="court-slot bench-slot" data-slot="B1"><div class="slot-label">B</div></div>
+                <div class="court-slot bench-slot" data-slot="B2"><div class="slot-label">B</div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -128,7 +254,30 @@
     const replayBtn = document.getElementById('replay');
     const dailyBtn = document.getElementById('dailyBtn');
     const infiniteBtn = document.getElementById('infiniteBtn');
+    const tournamentBtn = document.getElementById('tournamentBtn');
     const statGuesses = document.getElementById('statGuesses');
+
+    // dom references for tournament mode
+    const wordleGame = document.getElementById('wordleGame');
+    const tournamentGame = document.getElementById('tournamentGame');
+    const draftPhase = document.getElementById('draftPhase');
+    const draftPrompt = document.getElementById('draftPrompt');
+    const tournamentPhase = document.getElementById('tournamentPhase');
+    const simMatchBtn = document.getElementById('simMatchBtn');
+    const tournamentLog = document.getElementById('tournamentLog');
+    const restartTournamentBtn = document.getElementById('restartTournamentBtn');
+    const teamPowerDisplay = document.getElementById('teamPowerDisplay');
+
+    // tournament state variables
+    let roster = { S: null, OH1: null, OH2: null, OP: null, MB1: null, MB2: null, LI: null, B1: null, B2: null, C: null };
+    let currentDraftTeam = '';
+    let tournamentStage = 0;
+    let selectedSlotForSwap = null;
+    const TOURNAMENT_STAGES = [
+      { name: "Prefectural Qualifiers", oppPower: 450 },
+      { name: "Spring Tournament Semifinals", oppPower: 490 },
+      { name: "Spring High Nationals", oppPower: 530 }
+    ];
 
     // modal
     const winModal = document.getElementById('winModal');
@@ -141,10 +290,22 @@
     function setModeUI(){
       dailyBtn.classList.toggle('active', mode === 'daily');
       infiniteBtn.classList.toggle('active', mode === 'infinite');
+      tournamentBtn.classList.toggle('active', mode === 'tournament');
+      
+      if (mode === 'tournament') {
+        wordleGame.style.display = 'none';
+        tournamentGame.style.display = 'block';
+        document.querySelector('.center-wrap').style.maxWidth = '100vw';
+      } else {
+        wordleGame.style.display = 'block';
+        tournamentGame.style.display = 'none';
+        document.querySelector('.center-wrap').style.maxWidth = '96vw';
+      }
       localStorage.setItem('hv_mode', mode);
     }
     dailyBtn.addEventListener('click', ()=>{mode='daily';setModeUI();newGame();});
     infiniteBtn.addEventListener('click', ()=>{mode='infinite';setModeUI();newGame();});
+    tournamentBtn.addEventListener('click', ()=>{mode='tournament';setModeUI();startTournamentDraft();});
 
     async function loadCharacters(){
       try{
@@ -170,11 +331,14 @@
     }
 
     function newGame(){
+      if (mode === 'tournament') { startTournamentDraft(); return; }
+      
       availableCharacters = [...characters];
       if(mode === 'daily'){
         const idx = getDailyIndex(); target = characters[idx];
       } else { target = availableCharacters[Math.floor(Math.random()*availableCharacters.length)]; }
       guessesEl.innerHTML = '';
+      document.getElementById('guessesHeader').classList.remove('show');
       suggestionsEl.innerHTML = '';
       input.value = '';
       activeIndex = -1;
@@ -248,27 +412,393 @@
       const attrs = ['name','gender','team','position','occupation','height_cm'];
       attrs.forEach(attr=>{
         const cell = document.createElement('div');
-        const guessVal = guess[attr] ? String(guess[attr]) : '';
-        const targetVal = target && target[attr] ? String(target[attr]) : '';
-        const guessLower = guessVal.toLowerCase(); const targetLower = targetVal.toLowerCase();
+        let guessVal = guess[attr]; let targetVal = target ? target[attr] : null;
+        if(guessVal===null || guessVal===undefined || guessVal==='') guessVal = 'Unknown';
+        if(targetVal===null || targetVal===undefined || targetVal==='') targetVal = 'Unknown';
+        guessVal = String(guessVal); targetVal = String(targetVal);
+        
+        const guessLower = guessVal.toLowerCase(); 
+        const targetLower = targetVal.toLowerCase();
+        
         if(guessVal === targetVal){ cell.className='correct'; }
-        else if((targetLower && guessLower && (targetLower.includes(guessLower) || guessLower.includes(targetLower)))){ cell.className='partial'; }
+        else if(guessVal !== 'Unknown' && targetVal !== 'Unknown' && (targetLower.includes(guessLower) || guessLower.includes(targetLower))){ cell.className='partial'; }
         else { cell.className='wrong'; }
-        if(attr === 'height_cm'){ let hint=''; const gH=Number(guessVal), tH=Number(targetVal); if(!isNaN(gH)&&!isNaN(tH)){ if(tH>gH) hint=' ↑'; else if(tH<gH) hint=' ↓'; } cell.textContent = guessVal + hint; }
+        if(attr === 'height_cm'){ let hint=''; const gH=Number(guessVal), tH=Number(targetVal); if(!isNaN(gH)&&!isNaN(tH)){ if(tH>gH) hint=' ↑'; else if(tH<gH) hint=' ↓'; } cell.textContent = guessVal !== 'Unknown' ? guessVal + hint : 'Unknown'; }
         else cell.textContent = guessVal;
         row.appendChild(cell);
       });
       guessesEl.appendChild(row);
+      document.getElementById('guessesHeader').classList.add('show');
       availableCharacters = availableCharacters.filter(c=>c.name !== guess.name);
       updateStats();
       if(guess.name === target.name){ showVictoryModal(target); }
     }
 
-    function showVictoryModal(character){ winnerImage.src = character.imageUrl + '.webp'; winnerName.textContent = character.name; winnerTeam.textContent = character.team || ''; winModal.classList.add('show'); }
+    function showVictoryModal(character){ 
+      winnerImage.src = character.imageUrl + '.webp'; 
+      winnerName.textContent = character.name; 
+      winnerTeam.textContent = character.team || ''; 
+      winModal.classList.add('show'); 
+      if(typeof confetti === 'function') confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+    }
 
     replayBtn.addEventListener('click', ()=> newGame());
     playAgain.addEventListener('click', ()=>{ newGame(); winModal.classList.remove('show'); });
     closeWin.addEventListener('click', ()=> winModal.classList.remove('show'));
+
+    // --- Tournament Mode Logic ---
+    function getGenPos(posString) {
+      if(!posString) return null;
+      const pos = posString.toLowerCase();
+      if (pos.includes('coach') || pos.includes('advisor')) return 'C';
+      if (pos.includes('setter')) return 'S';
+      if (pos.includes('libero')) return 'LI';
+      if (pos.includes('middle blocker')) return 'MB';
+      if (pos.includes('wing spiker') || pos.includes('opposite') || pos.includes('ace') || pos.includes('pinch server') || pos.includes('decoy')) return 'WS';
+      return 'MGR'; // Manager or other
+    }
+
+    function canDraft(player) {
+      const genPos = getGenPos(player.position);
+      if (!genPos) return false;
+      if (genPos === 'S' && roster.S === null) return true;
+      if (genPos === 'WS' && (roster.OH1 === null || roster.OH2 === null || roster.OP === null)) return true;
+      if (genPos === 'MB' && (roster.MB1 === null || roster.MB2 === null)) return true;
+      if (genPos === 'LI' && roster.LI === null) return true;
+      if (genPos === 'C' && roster.C === null) return true;
+      if (roster.B1 === null || roster.B2 === null) return true;
+      return false;
+    }
+
+    function calculateBasePower(p) {
+      const tierList = {
+        "Wakatoshi Ushijima": 98,
+        "Kiyoomi Sakusa": 96,
+        "Wakatsu Kiryu": 95,
+        "Kōtarō Bokuto": 94,
+        "Korai Hoshiumi": 93,
+        "Aran Ojiro": 92,
+        "Tobio Kageyama": 98,
+        "Atsumu Miya": 97,
+        "Tōru Oikawa": 95,
+        "Kenma Kozume": 91,
+        "Keiji Akaashi": 89,
+        "Sachiro Hirugami": 96,
+        "Tetsurō Kuroo": 93,
+        "Rintarō Suna": 90,
+        "Takanobu Aone": 88,
+        "Kei Tsukishima": 86,
+        "Shoyo Hinata": 87,
+        "Motoya Komori": 96,
+        "Morisuke Yaku": 94,
+        "Yū Nishinoya": 92
+      };
+      if (tierList[p.name]) return tierList[p.name];
+      let power = 70;
+      if (p.height_cm && p.height_cm !== 'Unknown') power += (Number(p.height_cm) - 160) * 0.4;
+      if (p.position.includes('Captain') || p.position.includes('Ace') || p.position.includes('Setter') || p.position.includes('Coach')) power += 6;
+      return Math.floor(power);
+    }
+
+    function generatePlayerAttributes(player) {
+        const basePower = calculateBasePower(player);
+        const genPos = getGenPos(player.position);
+        let stats = { spike: 0.2, block: 0.2, serve: 0.2, set: 0.2, receive: 0.2 }; // Default distribution
+
+        if (genPos === 'WS') stats = { spike: 0.4, block: 0.15, serve: 0.2, set: 0.05, receive: 0.2 };
+        else if (genPos === 'MB') stats = { spike: 0.3, block: 0.4, serve: 0.1, set: 0.05, receive: 0.15 };
+        else if (genPos === 'S') stats = { spike: 0.1, block: 0.1, serve: 0.2, set: 0.5, receive: 0.1 };
+        else if (genPos === 'LI') stats = { spike: 0.0, block: 0.1, serve: 0.0, set: 0.2, receive: 0.7 };
+        else if (genPos === 'C') stats = { spike: 0, block: 0, serve: 0, set: 0, receive: 0 };
+
+        const finalStats = {
+            spike: Math.round(stats.spike * basePower),
+            block: Math.round(stats.block * basePower),
+            serve: Math.round(stats.serve * basePower),
+            set: Math.round(stats.set * basePower),
+            receive: Math.round(stats.receive * basePower)
+        };
+
+        return { ...player, stats: finalStats, power: basePower };
+    }
+
+    function pickPlayer(playerName) {
+      const player = characters.find(c => c.name === playerName);
+      if(!player) return;
+      const genPos = getGenPos(player.position);
+      let assignedSlot = null;
+      
+      if (genPos === 'S' && roster.S === null) assignedSlot = 'S';
+      else if (genPos === 'WS' && roster.OH1 === null) assignedSlot = 'OH1';
+      else if (genPos === 'WS' && roster.OH2 === null) assignedSlot = 'OH2';
+      else if (genPos === 'WS' && roster.OP === null) assignedSlot = 'OP';
+      else if (genPos === 'MB' && roster.MB1 === null) assignedSlot = 'MB1';
+      else if (genPos === 'MB' && roster.MB2 === null) assignedSlot = 'MB2';
+      else if (genPos === 'LI' && roster.LI === null) assignedSlot = 'LI';
+      else if (genPos === 'C' && roster.C === null) assignedSlot = 'C';
+      else if (roster.B1 === null) assignedSlot = 'B1';
+      else if (roster.B2 === null) assignedSlot = 'B2';
+
+      if (assignedSlot) {
+        const pDraft = generatePlayerAttributes(player);
+        roster[assignedSlot] = pDraft;
+        updateCourtVisuals();
+        nextDraftRound();
+      }
+    }
+
+    function renderDraftOptions(players) {
+      const optionsGrid = document.getElementById('draftOptions');
+      optionsGrid.innerHTML = '';
+      players.forEach(p => {
+        const draftable = canDraft(p);
+        const pWithStats = generatePlayerAttributes(p);
+        
+        const card = document.createElement('div');
+        card.className = `draft-card ${draftable ? '' : 'disabled'}`;
+        card.innerHTML = `
+          <div class="power">${pWithStats.power}</div>
+          <img src="${p.imageUrl}.webp" alt="${p.name}" onerror="this.src='${p.imageUrl}.jpg'">
+          <div>
+            <div class="name">${p.name}</div>
+            <div class="pos">${p.position.split('/')[0].trim()}</div>
+          </div>
+          <div class="draft-card-stats">
+            <div><span>SPK</span><strong>${pWithStats.stats.spike}</strong></div><div><span>BLK</span><strong>${pWithStats.stats.block}</strong></div>
+            <div><span>SRV</span><strong>${pWithStats.stats.serve}</strong></div><div><span>SET</span><strong>${pWithStats.stats.set}</strong></div>
+            <div style="grid-column: 1 / -1"><span>REC</span><strong>${pWithStats.stats.receive}</strong></div>
+          </div>
+        `;
+        if (draftable) {
+          card.draggable = true;
+          card.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', p.name);
+            card.style.opacity = '0.5';
+          });
+          card.addEventListener('dragend', () => card.style.opacity = '1');
+          card.addEventListener('click', () => pickPlayer(p.name));
+        }
+        optionsGrid.appendChild(card);
+      });
+    }
+
+    function startTournamentDraft() {
+      roster = { S: null, OH1: null, OH2: null, OP: null, MB1: null, MB2: null, LI: null, B1: null, B2: null, C: null };
+      tournamentStage = 0;
+      selectedSlotForSwap = null;
+      document.querySelectorAll('.court-slot').forEach(s => { s.style.borderColor = ''; s.style.transform = ''; });
+      
+      tournamentLog.innerHTML = '';
+      draftPhase.style.display = 'block';
+      tournamentPhase.style.display = 'none';
+      restartTournamentBtn.style.display = 'none';
+      simMatchBtn.style.display = 'inline-block';
+      updateCourtVisuals();
+      nextDraftRound();
+    }
+
+    function nextDraftRound() {
+      const filledCount = Object.values(roster).filter(p => p !== null).length;
+      if (filledCount >= 10) {
+        draftPhase.style.display = 'none';
+        tournamentPhase.style.display = 'block';
+        updateTeamPowerDisplay();
+        return;
+      }
+      
+      const teams = [...new Set(characters.map(c => c.team))];
+      teams.sort(() => Math.random() - 0.5);
+
+      let validTeamFound = false;
+      let availableFromTeam = [];
+
+      for (let team of teams) {
+        availableFromTeam = characters.filter(c => 
+          c.team === team && 
+          !Object.values(roster).some(p => p && p.name === c.name) &&
+          getGenPos(c.position) !== null
+        );
+
+        let draftable = availableFromTeam.filter(c => canDraft(c));
+        if (draftable.length > 0) {
+          currentDraftTeam = team;
+          validTeamFound = true;
+          break;
+        }
+      }
+
+      if (!validTeamFound) {
+        let allAvailable = characters.filter(c => !Object.values(roster).some(p => p && p.name === c.name) && canDraft(c));
+        if (allAvailable.length > 0) {
+          currentDraftTeam = "Any Team";
+          availableFromTeam = allAvailable.slice(0, 6);
+        } else {
+          draftPhase.style.display = 'none';
+          tournamentPhase.style.display = 'block';
+          updateTeamPowerDisplay();
+          return;
+        }
+      }
+
+      draftPrompt.innerHTML = `Round ${filledCount + 1} of 10: Drag a player from <strong style="color:var(--accent)">${currentDraftTeam}</strong> to the court (or click to auto-assign)`;
+      renderDraftOptions(availableFromTeam);
+    }
+
+    function updateCourtVisuals() {
+      document.querySelectorAll('.court-slot').forEach(slot => {
+        const slotId = slot.dataset.slot;
+        const player = roster[slotId];
+        if (player) {
+          slot.classList.add('filled');
+          slot.innerHTML = `<img src="${player.imageUrl}.webp" alt="${player.name}" onerror="this.src='${player.imageUrl}.jpg'"><div class="slot-label">${slotId.replace(/[0-9]/g, '')} • ${player.power}</div>`;
+        } else {
+          slot.classList.remove('filled');
+          slot.innerHTML = `<div class="slot-label">${slotId.replace(/[0-9]/g, '')}</div>`;
+        }
+      });
+      updateTeamPowerDisplay();
+    }
+
+    function calculateTeamPower() {
+      let power = 0;
+      ['S', 'OH1', 'OH2', 'OP', 'MB1', 'MB2', 'LI'].forEach(slot => {
+        if (roster[slot]) power += roster[slot].power;
+      });
+      // Add coach bonus
+      if (roster.C) power += roster.C.power * 0.2;
+      return power;
+    }
+
+    function updateTeamPowerDisplay() {
+      if (teamPowerDisplay) teamPowerDisplay.textContent = calculateTeamPower();
+    }
+
+    function assignPlayerToSlotFromDrag(playerName, slotId) {
+      const player = characters.find(c => c.name === playerName);
+      if(!player) return;
+      
+      if (Object.values(roster).some(p => p && p.name === player.name)) return;
+
+      const genPos = getGenPos(player.position);
+      const pDraft = generatePlayerAttributes(player);
+      
+      if (!isSlotValidForPlayer(slotId, pDraft)) {
+        alert(`Invalid slot! A ${pDraft.position.split('/')[0]} cannot be placed in the ${slotId} slot.`);
+        return;
+      }
+      
+      if (roster[slotId] !== null) {
+        alert("This slot is already filled!");
+        return;
+      }
+
+      roster[slotId] = pDraft;
+      updateCourtVisuals();
+      nextDraftRound();
+    }
+
+    document.querySelectorAll('.court-slot').forEach(slot => {
+      slot.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        slot.style.transform = 'scale(1.1)';
+        slot.style.borderColor = 'white';
+      });
+      slot.addEventListener('dragleave', (e) => {
+        if (selectedSlotForSwap !== slot.dataset.slot) {
+          slot.style.transform = '';
+          slot.style.borderColor = '';
+        }
+      });
+      slot.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (selectedSlotForSwap !== slot.dataset.slot) {
+          slot.style.transform = '';
+          slot.style.borderColor = '';
+        }
+        const playerName = e.dataTransfer.getData('text/plain');
+        if (playerName) assignPlayerToSlotFromDrag(playerName, slot.dataset.slot);
+      });
+      slot.addEventListener('click', () => {
+        if (Object.values(roster).some(p => p === null)) return;
+
+        const slotId = slot.dataset.slot;
+        if (!selectedSlotForSwap) {
+          selectedSlotForSwap = slotId;
+          slot.style.borderColor = 'var(--accent)';
+          slot.style.transform = 'scale(1.1)';
+        } else {
+          if (selectedSlotForSwap !== slotId) {
+            swapPlayers(selectedSlotForSwap, slotId);
+          }
+          document.querySelectorAll('.court-slot').forEach(s => {
+            s.style.borderColor = '';
+            s.style.transform = '';
+          });
+          selectedSlotForSwap = null;
+        }
+      });
+    });
+
+    function isSlotValidForPlayer(slotId, player) {
+      if (!player) return true; 
+      if (slotId.startsWith('B')) return true; 
+      if (slotId === 'C' && player.genPos === 'C') return true;
+      if (slotId.startsWith('S') && player.genPos === 'S') return true;
+      if (slotId.startsWith('MB') && player.genPos === 'MB') return true;
+      if ((slotId.startsWith('OH') || slotId === 'OP') && player.genPos === 'WS') return true;
+      if (slotId.startsWith('LI') && player.genPos === 'LI') return true;
+      return false;
+    }
+
+    function swapPlayers(slotA, slotB) {
+      const pA = roster[slotA];
+      const pB = roster[slotB];
+      
+      const isValidA = isSlotValidForPlayer(slotB, pA);
+      const isValidB = isSlotValidForPlayer(slotA, pB);
+      
+      if (isValidA && isValidB) {
+        roster[slotA] = pB;
+        roster[slotB] = pA;
+        updateCourtVisuals();
+      } else {
+        alert("Invalid swap! Players can only be subbed into their primary positions on the court.");
+      }
+    }
+
+    simMatchBtn.addEventListener('click', () => {
+      const stage = TOURNAMENT_STAGES[tournamentStage];
+      const myPower = Math.floor(calculateTeamPower() + Math.random() * 30 - 10); // Calculate team power + slight game RNG
+      const enemyPower = stage.oppPower + Math.floor(Math.random() * 25);
+
+      const win = myPower >= enemyPower;
+      const log = document.createElement('div');
+      log.className = 'log-entry ' + (win ? 'log-win' : 'log-loss');
+      log.innerHTML = `<strong>${stage.name}</strong><br>Your Power: <strong>${myPower}</strong> <span style="font-size:12px;color:var(--muted)">vs Opponent: ${enemyPower}</span><br><span style="margin-top:4px;display:block">${win ? '🎉 Victory! Advanced to next round.' : '❌ Defeat. Eliminated.'}</span>`;
+      tournamentLog.appendChild(log);
+
+      if (win) {
+        tournamentStage++;
+        if (tournamentStage >= TOURNAMENT_STAGES.length) {
+          simMatchBtn.style.display = 'none';
+          const champ = document.createElement('div');
+          champ.innerHTML = `🏆 <strong>NATIONAL CHAMPIONS!</strong> 🏆<br>Your drafted team won it all!`;
+          champ.style.color = 'var(--accent)';
+          champ.style.marginTop = '15px';
+          champ.style.fontWeight = 'bold';
+          champ.style.fontSize = '18px';
+          champ.style.textAlign = 'center';
+          tournamentLog.appendChild(champ);
+          restartTournamentBtn.style.display = 'inline-block';
+          if (typeof window.confetti === 'function') confetti({ particleCount: 300, spread: 100, origin: { y: 0.5 } });
+        }
+      } else {
+        simMatchBtn.style.display = 'none';
+        restartTournamentBtn.style.display = 'inline-block';
+      }
+    });
+
+    restartTournamentBtn.addEventListener('click', startTournamentDraft);
 
     loadCharacters();
   </script>
