@@ -101,11 +101,14 @@
     .volleyball-court::after { content: ''; position: absolute; top: 33%; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.8); }
     .court-half { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); height: 100%; padding: 15px; gap: 10px; align-items: center; justify-items: center; }
     
-    .court-slot { width: 65px; height: 65px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 2px dashed rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
-    .court-slot:hover { transform: scale(1.05); border-color: white; }
+    .court-slot { width: 65px; height: 65px; border-radius: 12px; background: rgba(0,0,0,0.3); border: 2px dashed rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; transition: all 0.2s; }
+    .court-slot:hover { transform: scale(1.1); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
     .court-slot.filled { border: 2px solid white; background: var(--bg-900); }
-    .court-slot img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .court-slot img { width: 100%; height: 100%; border-radius: 10px; object-fit: cover; }
     .slot-label { position: absolute; bottom: -18px; font-size: 11px; font-weight: 800; background: rgba(2,6,23,0.8); padding: 3px 6px; border-radius: 4px; color: white; white-space: nowrap; z-index: 5; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
+    .court-slot.valid-drop { border-color: var(--accent); border-style: solid; background: rgba(228,129,62,0.15); box-shadow: 0 0 15px rgba(228,129,62,0.3); }
+    .court-slot.valid-drop.drag-over { transform: scale(1.15); box-shadow: 0 0 25px rgba(228,129,62,0.6); background: rgba(228,129,62,0.3); border-width: 3px; }
+    .court-slot.invalid-drop { border-color: rgba(255,255,255,0.05); opacity: 0.2; filter: grayscale(100%); pointer-events: none; }
     
     .bench-area { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
     .bench-area h3 { margin: 0 0 15px 0; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
@@ -131,6 +134,32 @@
     .draft-card-stats div { display: flex; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 2px 4px; border-radius: 3px; }
     .draft-card-stats span { color: rgba(255,255,255,0.5); font-weight: 600; }
     .draft-card-stats strong { color: white; }
+
+    @keyframes playerAction {
+      0% { transform: translateY(0) scale(1); border-color: rgba(255,255,255,0.4); }
+      50% { transform: translateY(-15px) scale(1.15); border-color: var(--success); box-shadow: 0 10px 25px rgba(34, 197, 94, 0.6); z-index: 10; }
+      100% { transform: translateY(0) scale(1); border-color: white; z-index: 1; }
+    }
+    @keyframes playerFail {
+      0% { transform: translateX(0); border-color: rgba(255,255,255,0.4); }
+      25% { transform: translateX(-8px); border-color: var(--wrong); }
+      50% { transform: translateX(8px); box-shadow: 0 0 15px rgba(248, 113, 113, 0.6); z-index: 10; }
+      75% { transform: translateX(-8px); }
+      100% { transform: translateX(0); border-color: white; z-index: 1; }
+    }
+    .anim-action { animation: playerAction 0.8s ease-out; }
+    .anim-fail { animation: playerFail 0.6s ease-in-out; }
+    
+    .play-history { margin-top: 10px; max-height: 140px; overflow-y: auto; font-size: 12px; text-align: left; background: rgba(0,0,0,0.2); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 4px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
+    .history-event { padding: 5px; border-left: 3px solid var(--muted); background: rgba(255,255,255,0.02); border-radius: 0 4px 4px 0; }
+    .history-win { border-left-color: var(--success); }
+    .history-loss { border-left-color: var(--wrong); }
+
+    .tournament-win-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(2,6,23,0.9); z-index: 1000; flex-direction: column; text-align: center; }
+    .tournament-win-modal.show { display: flex; animation: correctPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .tournament-win-card { background: linear-gradient(135deg, var(--card), #2a160c); padding: 40px; border-radius: 20px; box-shadow: 0 0 50px rgba(228,129,62,0.4); border: 2px solid var(--accent); max-width: 90%; }
+    .tournament-win-card h1 { font-size: 3rem; color: var(--accent); text-transform: uppercase; margin: 0 0 10px 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5); font-family: 'Baloo 2', sans-serif; }
+    .tournament-win-card p { font-size: 1.2rem; color: white; margin-bottom: 20px; }
 
     @media (max-width: 720px) {
       .guess { grid-template-columns: 48px repeat(6, 1fr); gap: 4px; padding: 6px; }
@@ -231,6 +260,12 @@
                 <div class="court-slot bench-slot" data-slot="B2"><div class="slot-label">B</div></div>
               </div>
             </div>
+            <div class="coach-area" style="margin-top: 15px;">
+              <h3>Coach</h3>
+              <div class="coach-slot-wrapper">
+                <div class="court-slot" data-slot="C"><div class="slot-label">C</div></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -239,6 +274,14 @@
   </div>
 
   <div class="modal" id="winModal"><div class="modal-card"><img id="winnerImage" src="" alt="winner"><h2 id="winnerName">You got it right!</h2><p id="winnerTeam"></p><div style="margin-top:12px;display:flex;gap:8px;justify-content:center"><button id="playAgain" class="icon-btn">Play Again</button><button id="closeWin" class="mode-btn">Close</button></div></div></div>
+
+  <div class="tournament-win-modal" id="tournamentWinModal">
+    <div class="tournament-win-card">
+      <h1>🏆 Champions! 🏆</h1>
+      <p>Your drafted team conquered the tournament!</p>
+      <button id="closeTournamentWin" class="icon-btn" style="font-size:1.1rem; padding:12px 24px;">Claim Victory</button>
+    </div>
+  </div>
 
   <script>
     // --- data holders ---
@@ -273,10 +316,11 @@
     let currentDraftTeam = '';
     let tournamentStage = 0;
     let selectedSlotForSwap = null;
+    let matchInterval = null;
     const TOURNAMENT_STAGES = [
-      { name: "Prefectural Qualifiers", oppPower: 450 },
-      { name: "Spring Tournament Semifinals", oppPower: 490 },
-      { name: "Spring High Nationals", oppPower: 530 }
+      { name: "Prefectural Qualifiers", oppPower: 580 },
+      { name: "Spring Tournament Semifinals", oppPower: 620 },
+      { name: "Spring High Nationals", oppPower: 660 }
     ];
 
     // modal
@@ -286,6 +330,8 @@
     const winnerTeam = document.getElementById('winnerTeam');
     const playAgain = document.getElementById('playAgain');
     const closeWin = document.getElementById('closeWin');
+    const tournamentWinModal = document.getElementById('tournamentWinModal');
+    const closeTournamentWin = document.getElementById('closeTournamentWin');
 
     function setModeUI(){
       dailyBtn.classList.toggle('active', mode === 'daily');
@@ -331,6 +377,7 @@
     }
 
     function newGame(){
+      if (matchInterval) clearInterval(matchInterval);
       if (mode === 'tournament') { startTournamentDraft(); return; }
       
       availableCharacters = [...characters];
@@ -445,6 +492,7 @@
     replayBtn.addEventListener('click', ()=> newGame());
     playAgain.addEventListener('click', ()=>{ newGame(); winModal.classList.remove('show'); });
     closeWin.addEventListener('click', ()=> winModal.classList.remove('show'));
+    closeTournamentWin.addEventListener('click', ()=> tournamentWinModal.classList.remove('show'));
 
     // --- Tournament Mode Logic ---
     function getGenPos(posString) {
@@ -491,7 +539,17 @@
         "Shoyo Hinata": 87,
         "Motoya Komori": 96,
         "Morisuke Yaku": 94,
-        "Yū Nishinoya": 92
+        "Yū Nishinoya": 92,
+        "Tanji Washijō": 96,
+        "Ikkei Ukai": 94,
+        "Yasufumi Nekomata": 92,
+        "Norimune Kurosu": 89,
+        "Keishin Ukai": 87,
+        "Nobuteru Irihata": 85,
+        "Takeyuki Yamiji": 83,
+        "Takurō Oiwake": 81,
+        "Manabu Naoi": 75,
+        "Ittetsu Takeda": 70
       };
       if (tierList[p.name]) return tierList[p.name];
       let power = 70;
@@ -519,7 +577,7 @@
             receive: Math.round(stats.receive * basePower)
         };
 
-        return { ...player, stats: finalStats, power: basePower };
+        return { ...player, stats: finalStats, power: basePower, genPos: genPos };
     }
 
     function pickPlayer(playerName) {
@@ -574,8 +632,35 @@
           card.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', p.name);
             card.style.opacity = '0.5';
+            
+            // Custom rounded square ghost image
+            const dragImg = document.createElement('img');
+            dragImg.src = `${p.imageUrl}.webp`;
+            dragImg.style.width = '65px';
+            dragImg.style.height = '65px';
+            dragImg.style.borderRadius = '12px';
+            dragImg.style.objectFit = 'cover';
+            dragImg.style.position = 'absolute';
+            dragImg.style.top = '-1000px';
+            document.body.appendChild(dragImg);
+            e.dataTransfer.setDragImage(dragImg, 32, 32);
+            setTimeout(() => { if(dragImg.parentNode) dragImg.parentNode.removeChild(dragImg); }, 100);
+
+            // Highlight valid slots and grey out invalid
+            document.querySelectorAll('.court-slot').forEach(slot => {
+              if (isSlotValidForPlayer(slot.dataset.slot, pWithStats) && roster[slot.dataset.slot] === null) {
+                slot.classList.add('valid-drop');
+              } else {
+                slot.classList.add('invalid-drop');
+              }
+            });
           });
-          card.addEventListener('dragend', () => card.style.opacity = '1');
+          card.addEventListener('dragend', () => {
+            card.style.opacity = '1';
+            document.querySelectorAll('.court-slot').forEach(slot => {
+              slot.classList.remove('valid-drop', 'invalid-drop', 'drag-over');
+            });
+          });
           card.addEventListener('click', () => pickPlayer(p.name));
         }
         optionsGrid.appendChild(card);
@@ -583,6 +668,7 @@
     }
 
     function startTournamentDraft() {
+      if (matchInterval) clearInterval(matchInterval);
       roster = { S: null, OH1: null, OH2: null, OP: null, MB1: null, MB2: null, LI: null, B1: null, B2: null, C: null };
       tournamentStage = 0;
       selectedSlotForSwap = null;
@@ -664,9 +750,11 @@
       ['S', 'OH1', 'OH2', 'OP', 'MB1', 'MB2', 'LI'].forEach(slot => {
         if (roster[slot]) power += roster[slot].power;
       });
-      // Add coach bonus
+      // Add bonuses
       if (roster.C) power += roster.C.power * 0.2;
-      return power;
+      if (roster.B1) power += roster.B1.power * 0.05;
+      if (roster.B2) power += roster.B2.power * 0.05;
+      return Math.floor(power);
     }
 
     function updateTeamPowerDisplay() {
@@ -700,10 +788,15 @@
     document.querySelectorAll('.court-slot').forEach(slot => {
       slot.addEventListener('dragover', (e) => {
         e.preventDefault();
-        slot.style.transform = 'scale(1.1)';
-        slot.style.borderColor = 'white';
+        if (slot.classList.contains('valid-drop')) {
+          slot.classList.add('drag-over');
+        } else if (!slot.classList.contains('invalid-drop')) {
+          slot.style.transform = 'scale(1.1)';
+          slot.style.borderColor = 'white';
+        }
       });
       slot.addEventListener('dragleave', (e) => {
+        slot.classList.remove('drag-over');
         if (selectedSlotForSwap !== slot.dataset.slot) {
           slot.style.transform = '';
           slot.style.borderColor = '';
@@ -711,6 +804,7 @@
       });
       slot.addEventListener('drop', (e) => {
         e.preventDefault();
+        slot.classList.remove('drag-over');
         if (selectedSlotForSwap !== slot.dataset.slot) {
           slot.style.transform = '';
           slot.style.borderColor = '';
@@ -766,16 +860,108 @@
       }
     }
 
+    function getPointEvent(player, isWin) {
+      if (!player) return { text: "The team scrambled!", anim: 'anim-action' };
+      const pos = getGenPos(player.position);
+      let texts = [];
+      let anim = isWin ? 'anim-action' : 'anim-fail';
+      
+      if (isWin) {
+          if (pos === 'MB') texts = [`${player.name} shuts down the opponent with a monster block!`, `${player.name} runs a perfect quick attack!`, `Incredible read block by ${player.name}!`];
+          else if (pos === 'S') texts = [`${player.name} catches them off guard with a setter dump!`, `A perfect toss by ${player.name} leads to a kill!`, `Service ace! ${player.name} targets the seam perfectly.`];
+          else if (pos === 'LI') texts = [`${player.name} keeps the ball alive with a miraculous dig!`, `Perfect receive by ${player.name}! The counterattack succeeds!`, `Rolling thunder! ${player.name} saves the point.`];
+          else if (pos === 'WS') texts = [`${player.name} blasts it past the triple block!`, `An explosive cross-court spike by ${player.name}!`, `Wipe off the block! ${player.name} plays it smart.`, `${player.name} scores with a no-touch service ace!`];
+          else texts = [`${player.name} motivates the team to win the rally!`, `Great tactical timeout advice by ${player.name}.`];
+      } else {
+          if (pos === 'LI') texts = [`${player.name} couldn't quite reach the opponent's tip.`, `A nasty float serve aces ${player.name}!`, `The spike was too heavy for ${player.name} to dig.`];
+          else if (pos === 'MB') texts = [`${player.name} gets tooled by the opponent's ace.`, `${player.name} was late on the block.`, `The opponent runs a quick past ${player.name}.`];
+          else if (pos === 'S') texts = [`A miscommunication on the set by ${player.name}.`, `The opponent reads ${player.name}'s toss perfectly.`];
+          else if (pos === 'WS') texts = [`${player.name} gets shut down by a massive block!`, `${player.name}'s spike goes out of bounds.`, `${player.name} gets stuffed!`];
+          else texts = [`The opponent outsmarts ${player.name}'s strategy.`, `${player.name} watches helplessly as the ball drops.`];
+      }
+      return { text: texts[Math.floor(Math.random() * texts.length)], anim: anim };
+    }
+
     simMatchBtn.addEventListener('click', () => {
+      simMatchBtn.disabled = true;
+      simMatchBtn.style.pointerEvents = 'none';
+      simMatchBtn.style.opacity = '0.5';
+      simMatchBtn.textContent = 'Match in Progress...';
+
       const stage = TOURNAMENT_STAGES[tournamentStage];
       const myPower = Math.floor(calculateTeamPower() + Math.random() * 30 - 10); // Calculate team power + slight game RNG
       const enemyPower = stage.oppPower + Math.floor(Math.random() * 25);
 
-      const win = myPower >= enemyPower;
-      const log = document.createElement('div');
-      log.className = 'log-entry ' + (win ? 'log-win' : 'log-loss');
-      log.innerHTML = `<strong>${stage.name}</strong><br>Your Power: <strong>${myPower}</strong> <span style="font-size:12px;color:var(--muted)">vs Opponent: ${enemyPower}</span><br><span style="margin-top:4px;display:block">${win ? '🎉 Victory! Advanced to next round.' : '❌ Defeat. Eliminated.'}</span>`;
-      tournamentLog.appendChild(log);
+      let myScore = 0;
+      let enemyScore = 0;
+      
+      const matchHeader = document.createElement('div');
+      matchHeader.className = 'log-entry';
+      matchHeader.style.textAlign = 'center';
+      matchHeader.style.padding = '20px';
+      matchHeader.innerHTML = `
+        <strong style="font-size:1.1em; color:var(--accent)">${stage.name}</strong><br>
+        <span style="font-size:12px;color:var(--muted)">Your Power: ${myPower} vs Opponent: ${enemyPower}</span>
+        <div style="font-size:36px; font-weight:900; margin: 10px 0; font-family:'Baloo 2'">
+            <span class="score-me" style="color:var(--success)">0</span> - <span class="score-enemy" style="color:var(--wrong)">0</span>
+        </div>
+        <div class="play-by-play" style="font-size:14px; font-weight:bold; min-height:40px; color:white; background:rgba(0,0,0,0.3); padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">Whistle blows! Match is starting...</div>
+        <div class="play-history"></div>
+      `;
+      tournamentLog.prepend(matchHeader);
+      
+      const playByPlay = matchHeader.querySelector('.play-by-play');
+      const playHistory = matchHeader.querySelector('.play-history');
+      const scoreMe = matchHeader.querySelector('.score-me');
+      const scoreEnemy = matchHeader.querySelector('.score-enemy');
+
+      const activeSlots = ['S', 'OH1', 'OH2', 'OP', 'MB1', 'MB2', 'LI', 'C'];
+      const activePlayers = activeSlots.map(s => ({slotId: s, player: roster[s]})).filter(o => o.player !== null);
+
+      matchInterval = setInterval(() => {
+        let myWinChance = 0.5 + ((myPower - enemyPower) / 600); 
+        myWinChance = Math.max(0.2, Math.min(0.8, myWinChance)); // Clamp 20% to 80%
+        
+        const winPoint = Math.random() < myWinChance;
+        if(winPoint) myScore++; else enemyScore++;
+        
+        scoreMe.textContent = myScore;
+        scoreEnemy.textContent = enemyScore;
+        
+        let randomObj = activePlayers[Math.floor(Math.random() * activePlayers.length)];
+        const eventData = getPointEvent(randomObj.player, winPoint);
+        playByPlay.innerHTML = eventData.text;
+        
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-event ' + (winPoint ? 'history-win' : 'history-loss');
+        historyItem.innerHTML = `<strong style="color:${winPoint ? 'var(--success)' : 'var(--wrong)'}">[${myScore}-${enemyScore}]</strong> ${eventData.text}`;
+        playHistory.appendChild(historyItem);
+        playHistory.scrollTop = playHistory.scrollHeight; // Auto-scroll to latest point
+        
+        const slotEl = document.querySelector(`.court-slot[data-slot="${randomObj.slotId}"]`);
+        if (slotEl) {
+            slotEl.classList.remove('anim-action', 'anim-fail');
+            void slotEl.offsetWidth; // trigger reflow
+            slotEl.classList.add(eventData.anim);
+        }
+        
+        if (myScore >= 5 || enemyScore >= 5) {
+            clearInterval(matchInterval);
+            
+            simMatchBtn.disabled = false;
+            simMatchBtn.style.pointerEvents = 'auto';
+            simMatchBtn.style.opacity = '1';
+            simMatchBtn.textContent = 'Simulate Next Match';
+            
+            const win = myScore >= 5;
+            matchHeader.classList.add(win ? 'log-win' : 'log-loss');
+            
+            const resultText = document.createElement('div');
+            resultText.style.marginTop = '15px';
+            resultText.style.fontWeight = 'bold';
+            resultText.style.fontSize = '15px';
+            resultText.innerHTML = win ? '🎉 Victory! Advanced to next round.' : '❌ Defeat. Eliminated.';
+            matchHeader.appendChild(resultText);
 
       if (win) {
         tournamentStage++;
@@ -788,14 +974,26 @@
           champ.style.fontWeight = 'bold';
           champ.style.fontSize = '18px';
           champ.style.textAlign = 'center';
-          tournamentLog.appendChild(champ);
+          tournamentLog.prepend(champ);
           restartTournamentBtn.style.display = 'inline-block';
-          if (typeof window.confetti === 'function') confetti({ particleCount: 300, spread: 100, origin: { y: 0.5 } });
+          
+          tournamentWinModal.classList.add('show');
+          if (typeof window.confetti === 'function') {
+            const duration = 3000;
+            const end = Date.now() + duration;
+            (function frame() {
+              confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+              confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+              if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+          }
         }
       } else {
         simMatchBtn.style.display = 'none';
         restartTournamentBtn.style.display = 'inline-block';
       }
+        }
+      }, 1800);
     });
 
     restartTournamentBtn.addEventListener('click', startTournamentDraft);
