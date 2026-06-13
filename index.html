@@ -53,8 +53,12 @@
 
       <div id="tournamentGame" style="display:none;">
         <div class="Game-title">
-        <h2>Team Draft</h2>
-        <p id="draftPrompt">Round 1 of 10: Drag a player to the court (or click to auto-assign)</p>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h2>Team Draft</h2>
+            <div class="info-icon" data-tooltip="Draft Rules:&#10;• Draft 10 players to fill your roster.&#10;• Each round, a team is randomly selected. You must draft from their available players.&#10;• Drag players to valid positions, or click to auto-assign.&#10;• Players placed in their correct positions maximize Team Power.&#10;• Try to find Synergies to boost your power even more!">i</div>
+          </div>
+
+          <p id="draftPrompt" style="margin: 0; color: var(--muted);"></p>
         </div>
         <div class="tournament-layout">
           <div class="draft-left box">
@@ -642,7 +646,7 @@
         }
       }
 
-      draftPrompt.innerHTML = `Round ${filledCount + 1} of 10: Drag a player from <strong style="color:var(--accent)">${currentDraftTeam}</strong> to the court (or click to auto-assign)`;
+      draftPrompt.innerHTML = `<strong class="team-name">${currentDraftTeam}</strong>`;
       renderDraftOptions(availableFromTeam);
     }
 

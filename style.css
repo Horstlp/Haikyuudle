@@ -622,6 +622,47 @@ h1 {
   font-family: 'Baloo 2';
 }
 
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: bold;
+  cursor: help;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+.info-icon:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  padding: 10px;
+  background: var(--card);
+  border: 1px solid var(--accent);
+  color: white;
+  font-size: 12px;
+  font-weight: normal;
+  border-radius: 6px;
+  width: max-content;
+  max-width: 250px;
+  white-space: pre-wrap;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  pointer-events: none;
+  text-align: left;
+  line-height: 1.4;
+}
+
 .court-power-title {
   margin-top: 0;
   color: var(--muted);
@@ -810,6 +851,11 @@ body.is-dragging * {
 
 .draft-card-stats strong {
   color: white;
+}
+
+.team-name {
+  color:white;
+  font-size: 20px;
 }
 
 @keyframes playerAction {
