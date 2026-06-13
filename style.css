@@ -406,7 +406,7 @@ h1 {
   align-items: stretch;
 }
 
-@media (max-width: 768px) {
+@media (pointer: coarse) {
   .tournament-layout {
     flex-direction: column;
   }
@@ -709,13 +709,24 @@ h1 {
   border-radius: 10px;
   padding: 10px;
   text-align: center;
-  cursor: pointer;
+  cursor: grab;
   transition: all 0.2s;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  touch-action: none;
+}
+
+.draft-card:active,
+.draft-card.dragging {
+  cursor: grabbing;
+}
+
+body.is-dragging,
+body.is-dragging * {
+  cursor: grabbing !important;
 }
 
 .draft-card:hover {
@@ -850,11 +861,9 @@ h1 {
 }
 
 @keyframes wiggle {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  25% { transform: translate(-50%, -50%) rotate(-5deg); }
-  50% { transform: translate(-50%, -50%) rotate(0deg); }
-  75% { transform: translate(-50%, -50%) rotate(5deg); }
-  100% { transform: translate(-50%, -50%) rotate(0deg); }
+  0% { transform: translate(-50%, -50%) rotate(-5deg); }
+  50% { transform: translate(-50%, -50%) rotate(5deg); }
+  100% { transform: translate(-50%, -50%) rotate(-5deg); }
 }
 
 .anim-action {
@@ -1012,29 +1021,7 @@ h1 {
   line-height: 1.1;
 }
 
-@media (max-width: 720px) {
-  .guess {
-    grid-template-columns: 48px repeat(6, 1fr);
-    gap: 4px;
-    padding: 6px;
-  }
-
-  .guess img {
-    width: 48px;
-    height: 48px;
-  }
-
-  .guess div {
-    font-size: 11px;
-    padding: 4px;
-  }
-
-  .guess-header div {
-    font-size: 10px;
-  }
-}
-
-@media (max-width: 500px) {
+@media (pointer: coarse) {
   .guess {
     grid-template-columns: 36px repeat(6, 1fr);
     gap: 3px;

@@ -479,7 +479,7 @@
         card.className = `draft-card ${draftable ? '' : 'disabled'}`;
         card.innerHTML = `
           <div class="power">${pWithStats.power}</div>
-          <img src="${p.imageUrl}.webp" alt="${p.name}" onerror="this.src='${p.imageUrl}.jpg'">
+          <img src="${p.imageUrl}.webp" alt="${p.name}" onerror="this.src='${p.imageUrl}.jpg'" draggable="false">
           <div>
             <div class="name">${p.name}</div>
             <div class="pos">${p.position.split('/')[0].trim()}</div>
@@ -491,17 +491,14 @@
           </div>
         `;
         if (draftable) {
-          card.draggable = true;
-          card.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', p.name);
-            card.style.opacity = '0.5';
-            
-            // Set empty transparent drag image to hide default
-            const emptyImg = new Image();
-            emptyImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-            e.dataTransfer.setDragImage(emptyImg, 0, 0);
+          card.addEventListener('pointerdown', (e) => {
+            if (e.button !== 0 && e.pointerType === 'mouse') return;
+            e.preventDefault();
 
-            // Create custom wiggling drag element
+            card.style.opacity = '0.5';
+            card.classList.add('dragging');
+            document.body.classList.add('is-dragging');
+
             const customDrag = document.createElement('div');
             customDrag.id = 'customDragElement';
             customDrag.style.position = 'fixed';
@@ -513,8 +510,8 @@
             customDrag.style.overflow = 'hidden';
             customDrag.style.border = '3px solid var(--accent)';
             customDrag.style.boxShadow = '0 8px 16px rgba(0,0,0,0.5)';
-            customDrag.style.animation = 'wiggle 0.5s infinite ease-in-out';
-            customDrag.style.transform = 'translate(-50%, -50%)'; // center on mouse
+            customDrag.style.animation = 'wiggle 1s infinite ease-in-out';
+            customDrag.style.transform = 'translate(-50%, -50%)';
 
             const dragImg = document.createElement('img');
             dragImg.src = `${p.imageUrl}.webp`;
@@ -525,17 +522,24 @@
             
             document.body.appendChild(customDrag);
 
-            const updatePos = (moveEvent) => {
-                if (moveEvent.clientX === 0 && moveEvent.clientY === 0) return;
-                customDrag.style.left = moveEvent.clientX + 'px';
-                customDrag.style.top = moveEvent.clientY + 'px';
+            const updatePos = (clientX, clientY) => {
+                if (clientX === 0 && clientY === 0) return;
+                customDrag.style.left = clientX + 'px';
+                customDrag.style.top = clientY + 'px';
+                
+                const el = document.elementFromPoint(clientX, clientY);
+                const slot = el ? el.closest('.court-slot') : null;
+                
+                document.querySelectorAll('.court-slot').forEach(s => {
+                  if (s !== slot) s.classList.remove('drag-over');
+                });
+                if (slot && slot.classList.contains('valid-drop')) {
+                  slot.classList.add('drag-over');
+                }
             };
             
-            updatePos(e);
-            
-            card.addEventListener('drag', updatePos);
+            updatePos(e.clientX, e.clientY);
 
-            // Highlight valid slots and grey out invalid
             document.querySelectorAll('.court-slot').forEach(slot => {
               if (isSlotValidForPlayer(slot.dataset.slot, pWithStats) && roster[slot.dataset.slot] === null) {
                 slot.classList.add('valid-drop');
@@ -543,16 +547,36 @@
                 slot.classList.add('invalid-drop');
               }
             });
-          });
-          card.addEventListener('dragend', () => {
-            card.style.opacity = '1';
-            const customDrag = document.getElementById('customDragElement');
-            if (customDrag) customDrag.remove();
             
-            document.querySelectorAll('.court-slot').forEach(slot => {
-              slot.classList.remove('valid-drop', 'invalid-drop', 'drag-over');
-            });
+            const onPointerMove = (moveEvent) => {
+                updatePos(moveEvent.clientX, moveEvent.clientY);
+            };
+            
+            const onPointerUp = (upEvent) => {
+                document.removeEventListener('pointermove', onPointerMove);
+                document.removeEventListener('pointerup', onPointerUp);
+                
+                card.style.opacity = '1';
+                card.classList.remove('dragging');
+                document.body.classList.remove('is-dragging');
+                if (customDrag) customDrag.remove();
+                
+                const el = document.elementFromPoint(upEvent.clientX, upEvent.clientY);
+                const slot = el ? el.closest('.court-slot') : null;
+                
+                document.querySelectorAll('.court-slot').forEach(s => {
+                  s.classList.remove('valid-drop', 'invalid-drop', 'drag-over');
+                });
+                
+                if (slot && slot.dataset.slot) {
+                  assignPlayerToSlotFromDrag(p.name, slot.dataset.slot);
+                }
+            };
+            
+            document.addEventListener('pointermove', onPointerMove);
+            document.addEventListener('pointerup', onPointerUp);
           });
+          
           card.addEventListener('click', () => pickPlayer(p.name));
         }
         optionsGrid.appendChild(card);
