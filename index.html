@@ -496,18 +496,44 @@
             e.dataTransfer.setData('text/plain', p.name);
             card.style.opacity = '0.5';
             
-            // Custom rounded square ghost image
+            // Set empty transparent drag image to hide default
+            const emptyImg = new Image();
+            emptyImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+            e.dataTransfer.setDragImage(emptyImg, 0, 0);
+
+            // Create custom wiggling drag element
+            const customDrag = document.createElement('div');
+            customDrag.id = 'customDragElement';
+            customDrag.style.position = 'fixed';
+            customDrag.style.pointerEvents = 'none';
+            customDrag.style.zIndex = '9999';
+            customDrag.style.width = '75px';
+            customDrag.style.height = '75px';
+            customDrag.style.borderRadius = '12px';
+            customDrag.style.overflow = 'hidden';
+            customDrag.style.border = '3px solid var(--accent)';
+            customDrag.style.boxShadow = '0 8px 16px rgba(0,0,0,0.5)';
+            customDrag.style.animation = 'wiggle 0.5s infinite ease-in-out';
+            customDrag.style.transform = 'translate(-50%, -50%)'; // center on mouse
+
             const dragImg = document.createElement('img');
             dragImg.src = `${p.imageUrl}.webp`;
-            dragImg.style.width = '65px';
-            dragImg.style.height = '65px';
-            dragImg.style.borderRadius = '12px';
+            dragImg.style.width = '100%';
+            dragImg.style.height = '100%';
             dragImg.style.objectFit = 'cover';
-            dragImg.style.position = 'absolute';
-            dragImg.style.top = '-1000px';
-            document.body.appendChild(dragImg);
-            e.dataTransfer.setDragImage(dragImg, 32, 32);
-            setTimeout(() => { if(dragImg.parentNode) dragImg.parentNode.removeChild(dragImg); }, 100);
+            customDrag.appendChild(dragImg);
+            
+            document.body.appendChild(customDrag);
+
+            const updatePos = (moveEvent) => {
+                if (moveEvent.clientX === 0 && moveEvent.clientY === 0) return;
+                customDrag.style.left = moveEvent.clientX + 'px';
+                customDrag.style.top = moveEvent.clientY + 'px';
+            };
+            
+            updatePos(e);
+            
+            card.addEventListener('drag', updatePos);
 
             // Highlight valid slots and grey out invalid
             document.querySelectorAll('.court-slot').forEach(slot => {
@@ -520,6 +546,9 @@
           });
           card.addEventListener('dragend', () => {
             card.style.opacity = '1';
+            const customDrag = document.getElementById('customDragElement');
+            if (customDrag) customDrag.remove();
+            
             document.querySelectorAll('.court-slot').forEach(slot => {
               slot.classList.remove('valid-drop', 'invalid-drop', 'drag-over');
             });
@@ -862,6 +891,7 @@
         scoreE.textContent = enemyScore;
         title.textContent = syn.name + "!";
         img.src = `SynergyImages/${syn.id}.webp`;
+        img.style.display = 'block';
 
         modal.classList.add('show');
 
